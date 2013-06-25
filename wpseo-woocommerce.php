@@ -342,6 +342,20 @@ class Yoast_WooCommerce_SEO {
 				$i++;
 			}
 
+			echo '<br class="clear"/>';
+			echo '<h2>' . __( 'OpenGraph', 'yoast-woo-seo' ) . '</h2>';
+			echo '<p>' . __( 'In OpenGraph you can have a brand attribute specified, if you have a custom attribute that defines the brand, select it here. This is of particular interest if you use Pinterest.', 'yoast-woo-seo' ) . '</p>';
+			echo '<label for="ogbrand" class="checkbox">' . sprintf( __( 'OpenGraph Brand Attribute', 'yoast-woo-seo' ), $i ) . ':</label> ';
+			echo '<select class="textinput" id="ogbrand" name="' . $this->short_name . '[ogbrand]">';
+			echo '<option value="">-</option>';
+			foreach ( get_object_taxonomies( 'product', 'objects' ) as $tax ) {
+				$sel = '';
+				if ( strtolower( $tax->name ) == $this->options['ogbrand'] )
+					$sel = ' selected';
+				echo '<option value="' . strtolower( $tax->name ) . '"' . $sel . '>' . $tax->labels->name . '</option>';
+			}
+			echo '</select>';
+
 			$wpseo_options = get_wpseo_options();
 			if ( isset( $wpseo_options['breadcrumbs-enable'] ) && $wpseo_options['breadcrumbs-enable'] ) {
 				echo '<h2>' . __( 'Breadcrumbs', 'yoast-woo-seo' ) . '</h2>';
@@ -473,10 +487,17 @@ class Yoast_WooCommerce_SEO {
 			}
 		}
 
-		echo '<meta property="og:price:amount" content="' . $product->get_price() . '" />' . "\n";
-		echo '<meta property="og:price:currency" content="' . get_woocommerce_currency() . '" />' . "\n";
+		if ( isset( $this->options['ogbrand'] ) && $this->options['ogbrand'] ) {
+			$terms = get_the_terms( get_the_ID(), $this->options['ogbrand'] );
+			if ( is_array( $terms ) && count( $terms ) > 0 ) {
+				$term = array_shift( array_values( $terms ) );
+				echo "<meta property='og:brand' content='" . $term->name . "'/>\n";
+			}
+		}
+		echo "<meta property='og:price:amount' content='" . $product->get_price() . "'/>\n";
+		echo "<meta property='og:price:currency' content='" . get_woocommerce_currency() . "'/>\n";
 		if ( $product->is_in_stock() )
-			echo '<meta property="og:availability" content="instock" />' . "\n";
+			echo "<meta property='og:availability' content='instock'/>\n";
 	}
 
 	/**
