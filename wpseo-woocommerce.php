@@ -94,6 +94,7 @@ class Yoast_WooCommerce_SEO {
 			// Admin page
 			add_action( 'admin_init', array( $this, 'options_init' ) );
 			add_action( 'admin_menu', array( $this, 'register_settings_page' ), 20 );
+			add_action( 'admin_print_styles', array( $this, 'config_page_styles' ) );
 
 			// Product activation
 			add_action( 'add_option_' . $this->short_name, array( $this, 'activate_license' ) );
@@ -125,6 +126,8 @@ class Yoast_WooCommerce_SEO {
 
 			add_filter( 'wpseo_xml_sitemap_posttypes', array( $this, 'xml_sitemap_post_types' ) );
 			add_filter( 'wpseo_xml_sitemap_taxonomies', array( $this, 'xml_sitemap_taxonomies' ) );
+
+			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
 			if ( isset( $this->options['breadcrumbs'] )
 				&& $this->options['breadcrumbs']
@@ -194,6 +197,18 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function register_settings_page() {
 		add_submenu_page( 'wpseo_dashboard', 'WooCommerce SEO', 'WooCommerce SEO', 'manage_options', $this->short_name, array( $this, 'admin_panel' ) );
+	}
+
+	/**
+	 * Loads some CSS
+	 *
+	 * @since 1.0
+	 */
+	function config_page_styles() {
+		global $pagenow;
+		if ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && $_GET['page'] == 'wpseo_woo' ) {
+			wp_enqueue_style( 'yoast-admin-css', WPSEO_URL . 'css/yst_plugin_tools.css', WPSEO_VERSION );
+		}
 	}
 
 	/**
@@ -322,8 +337,8 @@ class Yoast_WooCommerce_SEO {
 
 			$i = 1;
 			while ( $i < 3 ) {
-				echo '<label for="datatype' . $i . '" class="checkbox">' . sprintf( __( 'Data %d', 'yoast-woo-seo' ), $i ) . ':</label> ';
-				echo '<select class="textinput" id="datatype' . $i . '" name="' . $this->short_name . '[data' . $i . '_type]">';
+				echo '<label class="select" for="datatype' . $i . '" class="checkbox">' . sprintf( __( 'Data %d', 'yoast-woo-seo' ), $i ) . ':</label> ';
+				echo '<select class="select" id="datatype' . $i . '" name="' . $this->short_name . '[data' . $i . '_type]">';
 				foreach ( array( 'Price', 'Stock' ) as $data_type ) {
 					$sel = '';
 					if ( strtolower( $data_type ) == $this->options['data' . $i . '_type'] )
@@ -343,14 +358,25 @@ class Yoast_WooCommerce_SEO {
 			}
 
 			echo '<br class="clear"/>';
-			echo '<h2>' . __( 'OpenGraph', 'yoast-woo-seo' ) . '</h2>';
-			echo '<p>' . __( 'In OpenGraph you can have a brand attribute specified, if you have a custom attribute that defines the brand, select it here. This is of particular interest if you use Pinterest.', 'yoast-woo-seo' ) . '</p>';
-			echo '<label for="ogbrand" class="checkbox">' . sprintf( __( 'OpenGraph Brand Attribute', 'yoast-woo-seo' ), $i ) . ':</label> ';
-			echo '<select class="textinput" id="ogbrand" name="' . $this->short_name . '[ogbrand]">';
+			echo '<h2>' . __( 'Schema & OpenGraph additions', 'yoast-woo-seo' ) . '</h2>';
+			echo '<p>' . __( 'If you have product attributes for the following types, select them here, the plugin will make sure they\'re used for the appropriate Schema.org and OpenGraph markup.', 'yoast-woo-seo' ) . '</p>';
+			echo '<label class="select" for="schema_brand" class="checkbox">' . sprintf( __( 'Brand', 'yoast-woo-seo' ), $i ) . ':</label> ';
+			echo '<select class="select" id="schema_brand" name="' . $this->short_name . '[schema_brand]">';
 			echo '<option value="">-</option>';
 			foreach ( get_object_taxonomies( 'product', 'objects' ) as $tax ) {
 				$sel = '';
-				if ( strtolower( $tax->name ) == $this->options['ogbrand'] )
+				if ( strtolower( $tax->name ) == $this->options['schema_brand'] )
+					$sel = ' selected';
+				echo '<option value="' . strtolower( $tax->name ) . '"' . $sel . '>' . $tax->labels->name . '</option>';
+			}
+			echo '</select>';
+			echo '<br class="clear"/>';
+			echo '<label class="select" for="schema_manufacturer" class="checkbox">' . sprintf( __( 'Manufacturer', 'yoast-woo-seo' ), $i ) . ':</label> ';
+			echo '<select class="select" id="schema_manufacturer" name="' . $this->short_name . '[schema_manufacturer]">';
+			echo '<option value="">-</option>';
+			foreach ( get_object_taxonomies( 'product', 'objects' ) as $tax ) {
+				$sel = '';
+				if ( strtolower( $tax->name ) == $this->options['schema_manufacturer'] )
 					$sel = ' selected';
 				echo '<option value="' . strtolower( $tax->name ) . '"' . $sel . '>' . $tax->labels->name . '</option>';
 			}
@@ -363,15 +389,17 @@ class Yoast_WooCommerce_SEO {
 				$this->checkbox( 'breadcrumbs', __( 'Replace WooCommerce Breadcrumbs', 'yoast-woo-seo' ) );
 			}
 
+			echo '<br class="clear"/>';
 			echo '<h2>' . __( 'Admin', 'yoast-woo-seo' ) . '</h2>';
 			echo '<p>' . __( 'Both WooCommerce and WordPress SEO by Yoast add columns to the product page, to remove all but the SEO score column from Yoast on that page, check this box.', 'yoast-woo-seo' ) . '</p>';
 			$this->checkbox( 'hide_columns', __( 'Remove WordPress SEO columns', 'yoast-woo-seo' ) );
-			echo '<label for="hide_columns" class="checkbox">' . __( 'Remove WordPress SEO columns', 'yoast-woo-seo' ) . '</label> ';
 
+			echo '<br class="clear"/>';
 			echo '<p>' . __( 'Both WooCommerce and WordPress SEO by Yoast add metaboxes to the edit product page, if you want WooCommerce to be above WordPress SEO, check the box.', 'yoast-woo-seo' ) . '</p>';
 			$this->checkbox( 'metabox_woo_top', __( 'Move WooCommerce Up', 'yoast-woo-seo' ) );
 		}
 
+		echo '<br class="clear"/>';
 		echo '<div class="submit"><input type="submit" class="button-primary" name="submit" value="' . __( "Save Settings", 'yoast-woo-seo' ) . '"/></div>';
 		echo '</div>';
 	}
@@ -487,8 +515,8 @@ class Yoast_WooCommerce_SEO {
 			}
 		}
 
-		if ( isset( $this->options['ogbrand'] ) && $this->options['ogbrand'] ) {
-			$terms = get_the_terms( get_the_ID(), $this->options['ogbrand'] );
+		if ( isset( $this->options['schema_brand'] ) && $this->options['schema_brand'] ) {
+			$terms = get_the_terms( get_the_ID(), $this->options['schema_brand'] );
 			if ( is_array( $terms ) && count( $terms ) > 0 ) {
 				$term = array_shift( array_values( $terms ) );
 				echo "<meta property='og:brand' content='" . $term->name . "'/>\n";
@@ -497,7 +525,7 @@ class Yoast_WooCommerce_SEO {
 		echo "<meta property='og:price:amount' content='" . $product->get_price() . "'/>\n";
 		echo "<meta property='og:price:currency' content='" . get_woocommerce_currency() . "'/>\n";
 		if ( $product->is_in_stock() )
-			echo "<meta property='og:availability' content='instock'/>\n";
+			echo "<meta property='og:price:availability' content='instock'/>\n";
 	}
 
 	/**
@@ -572,6 +600,26 @@ class Yoast_WooCommerce_SEO {
 			return 'product';
 
 		return $type;
+	}
+
+	/**
+	 * Filter the output of attributes and add schema.org attributes where possible
+	 *
+	 * @since 1.0
+	 *
+	 * @param string $text      The text of the attribute.
+	 * @param array  $attribute The array containing the attributes.
+	 *
+	 * @return string
+	 */
+	function schema_filter( $text, $attribute ) {
+		if ( 1 == $attribute['is_taxonomy'] ) {
+			if ( $this->options['schema_brand'] == $attribute['name'] )
+				return str_replace( '<p', '<p itemprop="brand"', $text );
+			if ( $this->options['schema_manufacturer'] == $attribute['name'] )
+				return str_replace( '<p', '<p itemprop="manufacturer"', $text );
+		}
+		return $text;
 	}
 }
 
