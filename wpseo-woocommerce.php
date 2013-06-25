@@ -124,8 +124,8 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
 			add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
 
-			add_filter( 'wpseo_xml_sitemap_posttypes', array( $this, 'xml_sitemap_post_types' ) );
-			add_filter( 'wpseo_xml_sitemap_taxonomies', array( $this, 'xml_sitemap_taxonomies' ) );
+			add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
+			add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
 
 			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
@@ -462,12 +462,15 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array $post_types
-	 * @return array
+	 * @param bool   $bool		Whether or not to include this post type in the XML sitemap
+	 * @param string $post_type
+	 *
+	 * @return bool
 	 */
-	function xml_sitemap_post_types( $post_types ) {
-		unset( $post_types['product_variation'], $post_types['shop_coupon'] );
-		return $post_types;
+	function xml_sitemap_post_types( $bool, $post_type ) {
+		if ( $post_type == 'product_variation' || $post_type == 'shop_coupon' )
+			return true;
+		return $bool;
 	}
 
 	/**
@@ -475,19 +478,18 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 1.0
 	 *
-	 * @param array $taxonomies
-	 * @return array
+	 * @param bool   $bool		Whether or not to include this post type in the XML sitemap
+	 * @param string $taxonomy
+	 * @return bool
 	 */
-	function xml_sitemap_taxonomies( $taxonomies ) {
-		unset( $taxonomies['product_type'], $taxonomies['product_shipping_class'], $taxonomies['shop_order_status'] );
+	function xml_sitemap_taxonomies( $bool, $taxonomy ) {
+		if ( $taxonomy == 'product_type' || $taxonomy == 'product_shipping_class' || $taxonomy == 'shop_order_status' )
+			return true;
 
-		// Remove all the product attributes too
-		foreach ( $taxonomies as $tax => $content ) {
-			if ( substr( $tax, 0, 3 ) == 'pa_' )
-				unset( $taxonomies[$tax] );
-		}
+		if ( substr( $taxonomy, 0, 3 ) == 'pa_' )
+			return true;
 
-		return $taxonomies;
+		return $bool;
 	}
 
 	/**
