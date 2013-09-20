@@ -29,6 +29,10 @@ You can find the FAQ [online here](http://yoast.com/wordpress/woocommerce-seo/fa
 Changelog
 =========
 
+1.0.1
+-----
+* Add check whether WordPress and WordPress SEO by Yoast are installed and up-to-date
+
 1.0
 ---
 
