@@ -636,7 +636,7 @@ class Yoast_WooCommerce_SEO {
  *
  * @since 1.0.1
  */
-function yoast_wpseo_missing_error() {
+function yoast_wpseo_woocommerce_missing_error() {
 	echo '<div class="error"><p>' . sprintf( __( 'Please %sinstall &amp; activate WordPress SEO by Yoast%s and then enable its XML sitemap functionality to allow the Video SEO module to work.' ), '<a href="' . admin_url( 'plugin-install.php?tab=search&type=term&s=wordpress+seo&plugin-search-input=Search+Plugins' ) . '">', '</a>' ) . '</p></div>';
 }
 
@@ -645,7 +645,7 @@ function yoast_wpseo_missing_error() {
  *
  * @since 1.0.1
  */
-function yoast_wordpress_upgrade_error() {
+function yoast_wpseo_woocommerce_wordpress_upgrade_error() {
 	echo '<div class="error"><p>' . __( 'Please upgrade WordPress to the latest version to allow WordPress and the Video SEO module to work properly.', 'yoast-video-seo' ) . '</p></div>';
 }
 
@@ -654,7 +654,7 @@ function yoast_wordpress_upgrade_error() {
  *
  * @since 1.0.1
  */
-function yoast_wpseo_upgrade_error() {
+function yoast_wpseo_woocommerce_upgrade_error() {
 	echo '<div class="error"><p>' . __( 'Please upgrade the WordPress SEO plugin to the latest version to allow the Video SEO module to work.', 'yoast-video-seo' ) . '</p></div>';
 }
 
@@ -669,19 +669,19 @@ function initialize_yoast_woocommerce_seo() {
 	global $wp_version;
 
 	if ( ! version_compare( $wp_version, '3.5', '>=' ) ) {
-		add_action( 'all_admin_notices', 'yoast_wordpress_upgrade_error' );
+		add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_wordpress_upgrade_error' );
 	}
 	else if ( defined( 'WPSEO_VERSION' ) ) {
 		if ( version_compare( WPSEO_VERSION, '1.4.15', '>=' ) ) {
 			$yoast_woo_seo = new Yoast_WooCommerce_SEO();
 		}
 		else {
-			add_action( 'all_admin_notices', 'yoast_wpseo_upgrade_error' );
+			add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_upgrade_error' );
 		}
 
 	}
 	else {
-		add_action( 'all_admin_notices', 'yoast_wpseo_missing_error' );
+		add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_missing_error' );
 	}
 }
 
