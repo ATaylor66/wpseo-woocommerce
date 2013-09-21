@@ -108,6 +108,8 @@ class Yoast_WooCommerce_SEO {
 				// Move Woo box above SEO box
 				if ( isset( $this->options['metabox_woo_top'] ) && $this->options['metabox_woo_top'] )
 					add_action( 'admin_footer', array( $this, 'footer_js' ) );
+
+				add_filter( 'wpseo_body_length_score', array( $this, 'change_body_length_requirements' ), 10, 2 );
 			}
 		}
 		else if ( $this->license_active ) {
@@ -142,6 +144,26 @@ class Yoast_WooCommerce_SEO {
 
 		}
 
+	}
+
+	/**
+	 * Changes the body copy length requirements for products.
+	 *
+	 * @param array $lengthReqs
+	 * @param array $job
+	 *
+	 * @return array
+	 */
+	function change_body_length_requirements( $lengthReqs, $job ) {
+		if ( $job['post_type'] == 'product' ) {
+			return array(
+				'good' => 200,
+				'ok'   => 150,
+				'poor' => 100,
+				'bad'  => 75
+			);
+		}
+		return $lengthReqs;
 	}
 
 	/**
