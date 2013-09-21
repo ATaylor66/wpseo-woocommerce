@@ -29,8 +29,17 @@ You can find the FAQ [online here](http://yoast.com/wordpress/woocommerce-seo/fa
 Changelog
 =========
 
+1.1
+---
+
+* Enhancements
+	* Change the minimum content length requirements to 200, instead of the WP SEO default of 300.
+	* Add a length test for the products short description.
+	* Make sure the content analysis tests use the product images as well.
+
 1.0.1
 -----
+
 * Add check whether WordPress and WordPress SEO by Yoast are installed and up-to-date
 
 1.0
