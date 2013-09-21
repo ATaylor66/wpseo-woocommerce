@@ -635,10 +635,16 @@ class Yoast_WooCommerce_SEO {
 	 * @return string
 	 */
 	function og_desc_enhancement( $desc ) {
-		if ( ! is_singular( 'product' ) )
-			return $desc;
+		if ( is_singular( 'product' ) )
+			return strip_tags( get_the_excerpt() );
 
-		return strip_tags( get_the_excerpt() );
+		if ( is_product_taxonomy() ) {
+			$term_desc = term_description();
+			if ( !empty( $term_desc ) )
+				return trim( strip_tags( $term_desc ) );
+		}
+
+		return $desc;
 	}
 
 	/**
