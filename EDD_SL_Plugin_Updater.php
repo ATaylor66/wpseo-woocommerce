@@ -109,7 +109,7 @@ class EDD_SL_Plugin_Updater {
 	}
 
 	/**
-	 * Calls the API and, if successfull, returns the object delivered by the API.
+	 * Calls the API and, if successful, returns the object delivered by the API.
 	 * 
 	 * @uses get_bloginfo()
 	 * @uses wp_remote_post()
@@ -120,8 +120,6 @@ class EDD_SL_Plugin_Updater {
 	 * @return bool|object
 	 */
 	private function api_request( $_action, $_data ) {
-		global $wp_version;
-
 		$data = array_merge( $this->api_data, $_data );
 		if ( $data['slug'] != $this->slug ) {
 			return false;
