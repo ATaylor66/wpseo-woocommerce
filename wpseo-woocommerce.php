@@ -613,6 +613,7 @@ class Yoast_WooCommerce_SEO {
 	 * twitter:domain meta tags
 	 *
 	 * @param	string	$domain
+	 * @return  string
 	 */
 	function filter_twitter_domain( $domain ) {
 		return get_bloginfo( 'site_name' );
@@ -702,7 +703,43 @@ class Yoast_WooCommerce_SEO {
 		}
 		return $text;
 	}
+	
+	
+	/********************** DEPRECATED METHODS **********************/
+
+	/**
+	 * Initialize the plugin defaults.
+	 *
+	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Option_Woo
+	 */
+	function initialize_defaults() {
+		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
+		return;
+	}
+
+	/**
+	 * Registers the plugins setting for the Settings API
+	 *
+	 * @since 1.0
+	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Option_Woo
+	 */
+	function options_init() {
+		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
+		return;
+	}
+
+	/**
+	 * See if there's a license to activate
+	 *
+	 * @since 1.0
+	 * @deprecated 1.1.0 - now handled in validation by class WPSEO_Option_Woo
+	 */
+	function activate_license() {
+		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', 'WPSEO_Option_Woo::validate_license()' );
+		return;
+ 	}
 }
+
 
 /**
  * Throw an error if WordPress SEO is not installed.
@@ -714,7 +751,7 @@ function yoast_wpseo_woocommerce_missing_error() {
 }
 
 /**
- * Throw an error if WordPress SEO is not installed.
+ * Throw an error if WordPress is out of date.
  *
  * @since 1.0.1
  */
@@ -723,7 +760,7 @@ function yoast_wpseo_woocommerce_wordpress_upgrade_error() {
 }
 
 /**
- * Throw an error if WordPress SEO is not installed.
+ * Throw an error if WordPress SEO is out of date.
  *
  * @since 1.0.1
  */
@@ -745,7 +782,7 @@ function initialize_yoast_woocommerce_seo() {
 		add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_wordpress_upgrade_error' );
 	}
 	else if ( defined( 'WPSEO_VERSION' ) ) {
-		if ( version_compare( WPSEO_VERSION, '1.5', '>=' ) ) {
+		if ( version_compare( WPSEO_VERSION, '1.5.0', '>=' ) ) {
 			$yoast_woo_seo = new Yoast_WooCommerce_SEO();
 		}
 		else {
