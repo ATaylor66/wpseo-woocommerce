@@ -191,7 +191,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					/* boolean (checkbox) field - may not be in form */
 					case 'breadcrumbs':
 					case 'hide_columns':
-					case 'metabox_woo_top';
+					case 'metabox_woo_top':
 						if ( isset( $dirty[$key] ) ) {
 							$clean[$key] = self::validate_bool( $dirty[$key] );
 						}
