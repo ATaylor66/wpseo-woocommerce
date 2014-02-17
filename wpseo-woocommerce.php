@@ -77,7 +77,7 @@ class Yoast_WooCommerce_SEO {
 		add_action( 'update_option_' . $this->short_name, array( $this, 'refresh_options_property' ) );
 
 
-		if ( $this->options['license-status'] === 'valid' ) {
+		if ( $this->options['license'] !== '' && $this->options['license-status'] === 'valid' ) {
 			$this->license_active = true;
 		}
 
@@ -263,7 +263,6 @@ class Yoast_WooCommerce_SEO {
 	 * Perform upgrade procedures to the settings
 	 */
 	function upgrade() {
-		// Nothing yet.
 		$this->option_instance->clean();
 	}
 
