@@ -266,7 +266,9 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					if ( $license_data->license === 'valid' ) {
 						$result['license'] = $dirty['license'];
 					}
-					$result['license-status'] = $license_data->license;
+					if( in_array( $license_data->license, $this->license_states, true ) ) {
+						$result['license-status'] = $license_data->license;
+					}
 				}
 			}
 			return $result;
