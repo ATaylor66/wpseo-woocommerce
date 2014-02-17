@@ -429,7 +429,7 @@ class Yoast_WooCommerce_SEO {
 			$this->checkbox( 'metabox_woo_top', __( 'Move WooCommerce Up', 'yoast-woo-seo' ) );
 		}
 		else {
-			echo '<input name="' . esc_attr( $this->short_name . '[short_form]' ) . '" value="on" />' . "\n";
+			echo '<input type="hidden" name="' . esc_attr( $this->short_name . '[short_form]' ) . '" value="on" />' . "\n";
 		}
 
 		echo '<br class="clear"/>';
