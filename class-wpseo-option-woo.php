@@ -234,7 +234,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 				return $result;
 			}
 	
-			if ( isset( $dirty['license-status'] ) && 'valid' === $dirty['license-status'] ) {
+			if ( ( isset( $dirty['license-status'] ) && 'valid' === $dirty['license-status'] )  && $dirty['license'] === $old['license'] ) {
 				$result['license']        = $dirty['license'];
 				$result['license-status'] = $dirty['license-status'];
 			}
