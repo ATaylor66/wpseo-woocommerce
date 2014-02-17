@@ -147,7 +147,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					case 'data1_type':
 					case 'data2_type':
 						if ( isset( $dirty[$key] ) ) {
-							if( in_array( $dirty[$key], $valid_data_types, true ) ) {
+							if ( in_array( $dirty[$key], $valid_data_types, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
 							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
@@ -156,7 +156,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 							}
 						}
 						else if ( $short && isset( $old[$key] ) ) {
-							if( in_array( $old[$key], $valid_data_types, true ) ) {
+							if ( in_array( $old[$key], $valid_data_types, true ) ) {
 								$clean[$key] = $old[$key];
 							}
 							else if ( sanitize_title_with_dashes( $old[$key] ) === $old[$key] ) {
@@ -169,7 +169,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					case 'schema_brand':
 					case 'schema_manufacturer':
 						if ( isset( $dirty[$key] ) ) {
-							if( in_array( $dirty[$key], $valid_taxonomies, true ) ) {
+							if ( in_array( $dirty[$key], $valid_taxonomies, true ) ) {
 								$clean[$key] = $dirty[$key];
 							}
 							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
@@ -178,7 +178,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 							}
 						}
 						else if ( $short && isset( $old[$key] ) ) {
-							if( in_array( $old[$key], $valid_taxonomies, true ) ) {
+							if ( in_array( $old[$key], $valid_taxonomies, true ) ) {
 								$clean[$key] = $old[$key];
 							}
 							else if ( sanitize_title_with_dashes( $old[$key] ) === $old[$key] ) {
@@ -266,7 +266,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					if ( $license_data->license === 'valid' ) {
 						$result['license'] = $dirty['license'];
 					}
-					if( in_array( $license_data->license, $this->license_states, true ) ) {
+					if ( in_array( $license_data->license, $this->license_states, true ) ) {
 						$result['license-status'] = $license_data->license;
 					}
 				}

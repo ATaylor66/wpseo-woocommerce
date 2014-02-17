@@ -713,7 +713,6 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function initialize_defaults() {
 		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
-		return;
 	}
 
 	/**
@@ -724,7 +723,6 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function options_init() {
 		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
-		return;
 	}
 
 	/**
@@ -732,11 +730,13 @@ class Yoast_WooCommerce_SEO {
 	 *
 	 * @since 1.0
 	 * @deprecated 1.1.0 - now handled in validation by class WPSEO_Option_Woo
+	 * @see WPSEO_Option_Woo::validate_license()
 	 */
 	function activate_license() {
 		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', 'WPSEO_Option_Woo::validate_license()' );
-		return;
- 	}
+		$option = get_option( $this->short_name );
+		update_option( $this->short_name, $option );
+	}
 }
 
 
