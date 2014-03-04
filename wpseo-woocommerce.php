@@ -36,21 +36,6 @@ class Yoast_WooCommerce_SEO {
 	var $short_name;
 
 	/**
-	 * @var string Name of the plugin for updating from update host
-	 */
-	var $plugin_name = 'WooCommerce Yoast SEO';
-
-	/**
-	 * @var string Name of the plugin author for updating from update host
-	 */
-	var $plugin_author = 'Joost de Valk';
-
-	/**
-	 * @var string Update host
-	 */
-	var $update_host = 'http://yoast.com/';
-
-	/**
 	 * @var string Version of the plugin.
 	 */
 	var $version = '1.1.0';
@@ -152,7 +137,7 @@ class Yoast_WooCommerce_SEO {
 		$item_url = 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/';
 		$license_page = 'admin.php?page=wpseo_licenses';
 		$text_domain = 'yoast-woo-seo';
-		$author = $this->plugin_author;
+		$author = "Yoast";
 
 		$license_manager = new Yoast_Plugin_License_Manager( $api_url, $item_name, $slug, $version, $item_url, $license_page, $text_domain, $author );				
 		return $license_manager;
