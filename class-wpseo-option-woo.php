@@ -50,12 +50,10 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		 *        Shouldn't be requested directly, use $this->get_defaults();
 		 */
 		protected $defaults = array(
-			// Non-form fields, set via validation routine / license activation method
+			// Non-form fields, set via validation routine
 			'dbversion'           => 0, // leave default as 0 to ensure activation/upgrade works
-			'license-status'      => 'invalid',
 
 			// Form fields:
-			'license'             => '', // text field
 			'data1_type'          => 'price',
 			'data2_type'          => 'stock',
 			'schema_brand'        => '',
@@ -65,14 +63,6 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			'metabox_woo_top'     => true,
 		);
 		
-		/**
-		 * @var	array	$license_states Array of possible license states for validation purposes
-		 */
-		protected $license_states = array(
-			'valid',
-			'invalid',
-		);
-
 		/**
 		 * @var	array	$valid_data_types Array of pre-defined valid data types, will be enriched with taxonomies
 		 */
@@ -116,6 +106,8 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		 * @param  array $dirty New value for the option
 		 * @param  array $clean Clean value for the option, normally the defaults
 		 * @param  array $old   Old value of the option
+		 *
+		 * @todo remove code using $short, there is no "short form" anymore.
 		 *
 		 * @return  array      Validated clean value for the option to be saved to the database
 		 */
@@ -205,74 +197,9 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 				}
 			}
 			
-			/* Validate the license */
-			$license = $this->validate_license( $dirty, $old );
-			$clean['license']        = $license['license'];
-			$clean['license-status'] = $license['license-status'];
-
 			return $clean;
 		}
 
-
-		/**
-		 * See if there's a license to activate
-		 *
-		 * @since 1.0
-		 *
-		 * @param  array $dirty New value for the option
-		 * @param  array $old   Old value of the option
-		 *
-		 * @return  array      Validated clean values related to the license
-		 */
-		function validate_license( $dirty, $old ) {
-			$result = array(
-				'license'        => $this->defaults['license'],
-				'license-status' => $this->defaults['license-status'],
-			);
-
-			if ( ! isset( $dirty['license'] ) || $dirty['license'] === '' ) {
-				return $result;
-			}
-	
-			if ( ( isset( $dirty['license-status'] ) && 'valid' === $dirty['license-status'] )  && $dirty['license'] === $old['license'] ) {
-				$result['license']        = $dirty['license'];
-				$result['license-status'] = $dirty['license-status'];
-			}
-			else if ( ! isset( $dirty['license-status'] ) && ( ( isset( $old['license-status'] ) && 'valid' === $old['license-status'] ) && $dirty['license'] === $old['license'] ) ) {
-				$result['license']        = $old['license'];
-				$result['license-status'] = $old['license-status'];
-			}
-			else {
-				// data to send in our API request
-				$api_params = array(
-					'edd_action' => 'activate_license',
-					'license'    => $dirty['license'],
-					'item_name'  => urlencode( $GLOBALS['yoast_woo_seo']->plugin_name ),
-				);
-	
-				// Call the custom API.
-				$url      = add_query_arg( $api_params, $GLOBALS['yoast_woo_seo']->update_host );
-				$args     = array(
-					'timeout' => 25,
-					'rand'    => rand( 1000, 9999 ),
-				);
-				$response = wp_remote_get( $url, $args );
-	
-				if ( ! is_wp_error( $response ) ) {
-					// decode the license data
-					$license_data = json_decode( wp_remote_retrieve_body( $response ) );
-		
-					// $license_data->license will be either "valid" or "invalid"
-					if ( $license_data->license === 'valid' ) {
-						$result['license'] = $dirty['license'];
-					}
-					if ( in_array( $license_data->license, $this->license_states, true ) ) {
-						$result['license-status'] = $license_data->license;
-					}
-				}
-			}
-			return $result;
-		}
 	
 		/**
 		 * Clean a given option value

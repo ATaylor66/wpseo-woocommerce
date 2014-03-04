@@ -19,7 +19,7 @@ Installation
 2. Click "Upload" right underneath "Install Plugins".
 3. Upload the zip file that this readme was contained in.
 4. Activate the plugin.
-5. Go to SEO -> WooCommerce SEO and enter your license key.
+5. Go to SEO -> Licenses and enter your WooCommerce SEO license key.
 6. Save settings, your license key will be validated. If all is well, you should now see the WooCommerce SEO settings.
 
 Frequently Asked Questions
@@ -45,6 +45,7 @@ Compatibility update for WP SEO v1.5 including application of a number of best p
 	* Add a length test for the products short description.
 	* Make sure the content analysis tests use the product images as well.
 	* If a product category has a description, use it for the OpenGraph description.
+	* Switch to general WP SEO Licensing class
 
 1.0.1
 -----
