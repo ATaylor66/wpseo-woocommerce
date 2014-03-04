@@ -256,9 +256,8 @@ class Yoast_WooCommerce_SEO {
 	 * Perform upgrade procedures to the settings
 	 */
 	function upgrade() {
-		$this->option_instance->clean();
-
-
+		
+		// upgrade license options
 		if( $this->license_manager && $this->license_manager->license_is_valid() == false ) {
 			
 			if( isset( $this->options['license-status'] ) ) {
@@ -269,7 +268,9 @@ class Yoast_WooCommerce_SEO {
 				$this->license_manager->set_license_key( $this->options['license'] );
 			}
 		}
-		
+
+		// upgrade to new wp seo option class
+		$this->option_instance->clean();
 	}
 
 	/**
