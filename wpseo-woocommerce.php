@@ -36,14 +36,23 @@ class Yoast_WooCommerce_SEO {
 	var $short_name;
 
 	/**
-	 * @var string Version of the plugin.
+	 * @const string Version of the plugin.
 	 */
-	var $version = '1.1.0';
+	const VERSION = '1.1.0';
 
 	/**
 	* @var Yoast_Plugin_License_Manager
 	*/
 	private $license_manager;
+
+	/**
+ 	 * Return the plugin file
+ 	 *
+ 	 * @return string
+ 	 */
+ 	public static function get_plugin_file() {
+ 		return __FILE__;
+ 	}
 
 	/**
 	 * Class constructor, basically hooks all the required functionality.
@@ -130,16 +139,14 @@ class Yoast_WooCommerce_SEO {
 			return;
 		}
 
-		$api_url = 'https://yoast.com';
-		$item_name = 'WooCommerce Yoast SEO'; 
-		$slug = plugin_basename( __FILE__ );
-		$version = $this->version;
-		$item_url = 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/';
-		$license_page = 'admin.php?page=wpseo_licenses';
-		$text_domain = 'yoast-woo-seo';
-		$author = "Yoast";
+		require_once( dirname( __FILE__ ) . '/class-product-wpseo-woocommerce.php' );
 
-		$license_manager = new Yoast_Plugin_License_Manager( $api_url, $item_name, $slug, $version, $item_url, $license_page, $text_domain, $author );				
+		$license_manager = new Yoast_Plugin_License_Manager( 
+			new Yoast_Product_WPSEO_WooCommerce()
+		);
+
+		$license_manager->setup_hooks();
+
 		return $license_manager;
 	}
 	
