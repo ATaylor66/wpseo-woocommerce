@@ -14,7 +14,7 @@ if( ! class_exists( 'Yoast_Product_WPSEO_WooCommerce' ) ) {
 					plugin_basename( Yoast_WooCommerce_SEO::get_plugin_file() ),
 					Yoast_WooCommerce_SEO::VERSION,
 					'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/',
-					'admin.php?page=wpseo_licenses',
+					'admin.php?page=wpseo_licenses#top#licenses',
 					'yoast-woo-seo',
 					'Yoast'
 			);
