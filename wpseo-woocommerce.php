@@ -449,10 +449,9 @@ class Yoast_WooCommerce_SEO {
 	 * @since 1.0
 	 */
 	function woo_wpseo_breadcrumbs() {
-		if ( ! isset( $GLOBALS['wpseo_bc'] ) || ! is_object( $GLOBALS['wpseo_bc'] ) ) {
-			$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+		if ( function_exists( 'yoast_breadcrumb' ) ) {
+			yoast_breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
 		}
-		$GLOBALS['wpseo_bc']->breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
 	}
 
 	/**
