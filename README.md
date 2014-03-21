@@ -2,7 +2,7 @@ WooCommerce Yoast SEO
 =====================
 Requires at least: 3.5
 Tested up to: 3.8.1
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Depends: wordpress-seo
 
 This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
@@ -29,6 +29,11 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 
 Changelog
 =========
+
+1.1.2
+---
+
+* Fixed a bug where the breadcrumb caused a fatal error.
 
 1.1.1
 ---
