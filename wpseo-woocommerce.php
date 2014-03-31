@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:	Yoast WooCommerce SEO
- * Version:     1.1.0
+ * Version:     1.1.2
  * Plugin URI:  http://yoast.com/wordpress/yoast-woocommerce-seo/
  * Description: This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
  * Author:      Joost de Valk
@@ -38,7 +38,7 @@ class Yoast_WooCommerce_SEO {
 	/**
 	 * @const string Version of the plugin.
 	 */
-	const VERSION = '1.1.0';
+	const VERSION = '1.1.2';
 
 	/**
 	* @var Yoast_Plugin_License_Manager
@@ -446,10 +446,9 @@ class Yoast_WooCommerce_SEO {
 	 * @since 1.0
 	 */
 	function woo_wpseo_breadcrumbs() {
-		if ( ! isset( $GLOBALS['wpseo_bc'] ) || ! is_object( $GLOBALS['wpseo_bc'] ) ) {
-			$GLOBALS['wpseo_bc'] = new WPSEO_Breadcrumbs;
+		if ( function_exists( 'yoast_breadcrumb' ) ) {
+			yoast_breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
 		}
-		$GLOBALS['wpseo_bc']->breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
 	}
 
 	/**
