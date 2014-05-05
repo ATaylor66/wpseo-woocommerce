@@ -522,7 +522,8 @@ class Yoast_WooCommerce_SEO {
 		if ( $this->options['schema_brand'] !== '' ) {
 			$terms = get_the_terms( get_the_ID(), $this->options['schema_brand'] );
 			if ( is_array( $terms ) && count( $terms ) > 0 ) {
-				$term = array_shift( array_values( $terms ) );
+				$term_values = array_values( $terms );
+				$term        = array_shift( $term_values );
 				echo '<meta property="og:brand" content="' . esc_attr( $term->name ) . "\"/>\n";
 			}
 		}
