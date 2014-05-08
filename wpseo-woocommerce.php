@@ -543,17 +543,17 @@ class Yoast_WooCommerce_SEO {
 	 * @return string
 	 */
 	function og_desc_enhancement( $desc ) {
-		if ( is_singular( 'product' ) ) {
-			$desc = strip_tags( get_the_excerpt() );
-		}
 
 		if ( is_product_taxonomy() ) {
+
 			$term_desc = term_description();
+
 			if ( ! empty( $term_desc ) ) {
 				$desc = trim( strip_tags( $term_desc ) );
+				$desc = strip_shortcodes( $desc );
 			}
+
 		}
-		$desc = strip_shortcodes( $desc );
 
 		return $desc;
 	}
