@@ -639,7 +639,7 @@ class Yoast_WooCommerce_SEO {
 
 				case 'price':
 					$product_atts[ 'label' . $i ] = __( 'Price', 'woocommerce' );
-					$product_atts[ 'data' . $i ]  = get_woocommerce_currency_symbol() . ' ' . $product->get_price();
+					$product_atts[ 'data' . $i ]  = strip_tags( wc_price( $product->get_price() ) );
 					break;
 
 				default:
