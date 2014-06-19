@@ -37,6 +37,7 @@ Changelog
 * Fixed double class instantiation within same method.
 * Add call to `load_plugin_textdomain()`.
 * Make sure we recognize WooCommerce product gallery images.
+* Use product category thumbnail for og:image.
 
 1.1.2
 ---

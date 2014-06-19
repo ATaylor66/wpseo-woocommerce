@@ -516,11 +516,21 @@ class Yoast_WooCommerce_SEO {
 	 * @since 1.0
 	 */
 	function og_enhancement() {
+		global $wpseo_og;
+
+		if ( is_product_category() || ! function_exists( 'is_product_category' ) ) {
+			global $wp_query;
+			$cat          = $wp_query->get_queried_object();
+			$thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
+			$img_url      = wp_get_attachment_url( $thumbnail_id );
+			if ( $img_url ) {
+				$wpseo_og->image_output( $img_url );
+			}
+		}
+
 		if ( ! is_singular( 'product' ) || ! function_exists( 'get_product' ) ) {
 			return;
 		}
-
-		global $wpseo_og;
 
 		$product = get_product( get_the_ID() );
 		if ( ! is_object( $product ) ) {
