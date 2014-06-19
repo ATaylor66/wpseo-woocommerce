@@ -252,6 +252,16 @@ class Yoast_WooCommerce_SEO {
 					$content .= wp_get_attachment_image( $attachment->ID, 'thumbnail' ) . ' ';
 				}
 			}
+
+			if ( metadata_exists( 'post', $post->ID, '_product_image_gallery' ) ) {
+				$product_image_gallery = get_post_meta( $post->ID, '_product_image_gallery', true );
+
+				$attachments = array_filter( explode( ',', $product_image_gallery ) );
+
+				foreach ( $attachments as $attachment_id ) {
+					$content .= wp_get_attachment_image( $attachment_id, 'thumbnail' );
+				}
+			}
 		}
 		return $content;
 	}
