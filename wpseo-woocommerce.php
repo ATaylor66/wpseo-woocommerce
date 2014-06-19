@@ -61,8 +61,6 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function __construct() {
 
-		load_plugin_textdomain( 'yoast-woo-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
 		// Initialize the options
 		require_once( plugin_dir_path( __FILE__ ) . 'class-wpseo-option-woo.php' );
 		$this->option_instance = WPSEO_Option_Woo::get_instance();
@@ -726,6 +724,8 @@ function yoast_wpseo_woocommerce_upgrade_error() {
 function initialize_yoast_woocommerce_seo() {
 	global $yoast_woo_seo;
 	global $wp_version;
+
+	load_plugin_textdomain( 'yoast-woo-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
 	if ( ! version_compare( $wp_version, '3.5', '>=' ) ) {
 		add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_wordpress_upgrade_error' );
