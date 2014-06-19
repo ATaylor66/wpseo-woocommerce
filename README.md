@@ -34,6 +34,7 @@ Changelog
 ---
 
 * Improved how WooCommerce breadcrumbs are replaced.
+* Fixed double class instantiation within same method.
 
 1.1.2
 ---
