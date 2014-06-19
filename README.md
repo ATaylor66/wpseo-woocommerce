@@ -30,6 +30,11 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 Changelog
 =========
 
+1.1.3
+---
+
+* Improved how WooCommerce breadcrumbs are replaced.
+
 1.1.2
 ---
 

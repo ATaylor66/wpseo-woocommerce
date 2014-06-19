@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:	Yoast WooCommerce SEO
- * Version:     1.1.2
+ * Version:     1.1.3
  * Plugin URI:  http://yoast.com/wordpress/yoast-woocommerce-seo/
  * Description: This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
  * Author:      Joost de Valk
@@ -119,10 +119,22 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
 			if ( $this->options['breadcrumbs'] === true	&& $wpseo_options['breadcrumbs-enable'] === true ) {
-				remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20, 0 );
-				add_action( 'woocommerce_before_main_content', array( $this, 'woo_wpseo_breadcrumbs' ) );
+				add_filter( 'woo_breadcrumbs', 'override_woo_breadcrumbs' );
 			}
 		}
+	}
+
+	/**
+	 * Overrides the Woo breadcrumb functionality when the WP SEO breadcrumb functionality is enabled
+	 *
+	 * @uses woo_breadcrumbs filter
+	 *
+	 * @since 1.1.3
+	 *
+	 * @return string
+	 */
+	public function override_woo_breadcrumbs() {
+		return yoast_breadcrumb( '<div class="breadcrumb breadcrumbs woo-breadcrumbs"><div class="breadcrumb-trail">', '</div></div>', false );
 	}
 
 	/**
@@ -449,9 +461,7 @@ class Yoast_WooCommerce_SEO {
 	 * @since 1.0
 	 */
 	function woo_wpseo_breadcrumbs() {
-		if ( function_exists( 'yoast_breadcrumb' ) ) {
-			yoast_breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
-		}
+		yoast_breadcrumb( '<nav class="woocommerce-breadcrumb">', '</nav>' );
 	}
 
 	/**
