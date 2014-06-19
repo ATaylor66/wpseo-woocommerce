@@ -226,6 +226,8 @@ class Yoast_WooCommerce_SEO {
 			$wpseo_metabox->save_score_result( $results, 1, __( 'You should write a short description for this product.', 'yoast-woo-seo' ), 'woocommerce_shortdesc' );
 		} else if ( $word_count < 20 ) {
 			$wpseo_metabox->save_score_result( $results, 5, __( 'The short description for this product too short.', 'yoast-woo-seo' ), 'woocommerce_shortdesc' );
+		} else if ( $word_count > 50 ) {
+			$wpseo_metabox->save_score_result( $results, 5, __( 'The short description for this product is too long.', 'yoast-woo-seo' ), 'woocommerce_shortdesc' );
 		} else {
 			$wpseo_metabox->save_score_result( $results, 9, __( 'Your short description has a good length.', 'yoast-woo-seo' ), 'woocommerce_shortdesc' );
 		}

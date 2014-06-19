@@ -38,6 +38,7 @@ Changelog
 * Add call to `load_plugin_textdomain()`.
 * Make sure we recognize WooCommerce product gallery images.
 * Use product category thumbnail for og:image.
+* Make sure short description length test also soft errors when short description is too long.
 
 1.1.2
 ---
