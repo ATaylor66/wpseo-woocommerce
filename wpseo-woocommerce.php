@@ -400,9 +400,6 @@ class Yoast_WooCommerce_SEO {
 		echo '<br class="clear"/>';
 		
 		// Submit button and debug info
-		if ( ! isset( $GLOBALS['wpseo_admin_pages'] ) ) {
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-		}
 		$GLOBALS['wpseo_admin_pages']->admin_footer( true, false );
 	}
 
