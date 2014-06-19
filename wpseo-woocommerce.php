@@ -61,6 +61,8 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function __construct() {
 
+		load_plugin_textdomain( 'yoast-woo-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 		// Initialize the options
 		require_once( plugin_dir_path( __FILE__ ) . 'class-wpseo-option-woo.php' );
 		$this->option_instance = WPSEO_Option_Woo::get_instance();

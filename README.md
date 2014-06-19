@@ -35,6 +35,7 @@ Changelog
 
 * Improved how WooCommerce breadcrumbs are replaced.
 * Fixed double class instantiation within same method.
+* Add call to `load_plugin_textdomain()`.
 
 1.1.2
 ---
