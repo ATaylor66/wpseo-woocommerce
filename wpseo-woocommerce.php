@@ -628,7 +628,7 @@ class Yoast_WooCommerce_SEO {
 		while ( $i < 3 ) {
 			switch ( $this->options[ 'data' . $i . '_type' ] ) {
 				case 'stock':
-					$product_atts[ 'label' . $i ] = __( 'In stock', 'woocommerce' );
+					$product_atts[ 'label' . $i ] = __( 'In stock', 'yoast-woo-seo' );
 					$product_atts[ 'data' . $i ]  = ( $product->is_in_stock() ) ? __( 'Yes' ) : __( 'No' );
 					break;
 
