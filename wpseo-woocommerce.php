@@ -360,9 +360,8 @@ class Yoast_WooCommerce_SEO {
 
 		$taxonomies = get_object_taxonomies( 'product', 'objects' );
 
-		echo '
-		<h2>' . __( 'Twitter Product Cards', 'yoast-woo-seo' ) . '</h2>
-		<p>' . __( 'Twitter allows you to display two pieces of data in the Twitter card, pick which two are shown:', 'yoast-woo-seo' ) . '</p>';
+		echo '<h2>' . __( 'Twitter Product Cards', 'yoast-woo-seo' ) . '</h2>';
+		echo '<p>' . __( 'Twitter allows you to display two pieces of data in the Twitter card, pick which two are shown:', 'yoast-woo-seo' ) . '</p>';
 
 		$i = 1;
 		while ( $i < 3 ) {
