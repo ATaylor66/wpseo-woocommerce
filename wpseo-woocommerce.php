@@ -290,10 +290,19 @@ class Yoast_WooCommerce_SEO {
 			$attachments = array_filter( explode( ',', $product_image_gallery ) );
 
 			foreach ( $attachments as $attachment_id ) {
-				$image    = wp_get_attachment_image_src( $attachment_id );
-				$images[] = array(
-					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $image[0], $post_id ),
-				);
+				$image_src    = wp_get_attachment_image_src( $attachment_id );
+				$image['src'] = apply_filters( 'wpseo_xml_sitemap_img_src', $image_src[0], $post_id );
+				unset( $image_src );
+
+				$alt = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
+				if ( $alt !== '' ) {
+					$image['alt'] = $alt;
+				}
+				unset( $alt );
+
+				$image['title'] = get_the_title( $attachment_id );
+
+				$images[] = $image;
 			}
 		}
 
