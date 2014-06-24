@@ -36,7 +36,8 @@ Changelog
 * Improved how WooCommerce breadcrumbs are replaced.
 * Fixed double class instantiation within same method.
 * Add call to `load_plugin_textdomain()`.
-* Make sure we recognize WooCommerce product gallery images.
+* Make sure we recognize WooCommerce product gallery images in page analysis.
+* Add images from product gallery to XML sitemap.
 * Use product category thumbnail for og:image.
 * Make sure short description length test also soft errors when short description is too long.
 * Use WooCommerce price formatting functions for price in Twitter card.

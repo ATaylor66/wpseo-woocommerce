@@ -119,6 +119,8 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
 			add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
 
+			add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
+
 			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
 			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
@@ -271,6 +273,30 @@ class Yoast_WooCommerce_SEO {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Add the product gallery images to the XML sitemap
+	 *
+	 * @param array $images  The array of images for the post
+	 * @param int   $post_id The ID of the post object
+	 *
+	 * @return array
+	 */
+	function add_product_images_to_xml_sitemap( $images, $post_id ) {
+		if ( metadata_exists( 'post', $post_id, '_product_image_gallery' ) ) {
+			$product_image_gallery = get_post_meta( $post_id, '_product_image_gallery', true );
+
+			$attachments = array_filter( explode( ',', $product_image_gallery ) );
+
+			foreach ( $attachments as $attachment_id ) {
+				$images[] = array(
+					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', wp_get_attachment_image_src( $attachment_id ), $post_id ),
+				);
+			}
+		}
+
+		return $images;
 	}
 
 	/**
