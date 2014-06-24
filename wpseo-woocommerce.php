@@ -290,8 +290,9 @@ class Yoast_WooCommerce_SEO {
 			$attachments = array_filter( explode( ',', $product_image_gallery ) );
 
 			foreach ( $attachments as $attachment_id ) {
+				$image    = wp_get_attachment_image_src( $attachment_id );
 				$images[] = array(
-					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', wp_get_attachment_image_src( $attachment_id ), $post_id ),
+					'src' => apply_filters( 'wpseo_xml_sitemap_img_src', $image['src'], $post_id ),
 				);
 			}
 		}
