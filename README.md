@@ -30,6 +30,9 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 Changelog
 =========
 
+### Trunk
+* Add `wpseo_woocommerce_og_price` filter. Returning false on it prevents price from being put out in OpenGraph tags. 
+
 ### 1.1.3: June 24th, 2014
 * Improved how WooCommerce breadcrumbs are replaced.
 * Fixed double class instantiation within same method.

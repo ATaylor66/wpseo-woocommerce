@@ -595,8 +595,16 @@ class Yoast_WooCommerce_SEO {
 				echo '<meta property="og:brand" content="' . esc_attr( $term->name ) . "\"/>\n";
 			}
 		}
-		echo '<meta property="og:price:amount" content="' . esc_attr( $product->get_price() ) . "\"/>\n";
-		echo '<meta property="og:price:currency" content="' . esc_attr( get_woocommerce_currency() ) . "\"/>\n";
+		/**
+		 * Filter: wpseo_woocommerce_og_price - Allow developers to prevent the output of the price in the OpenGraph tags
+		 *
+		 * @api bool unsigned Defaults to true.
+		 */
+		if ( apply_filters( 'wpseo_woocommerce_og_price', true ) ) {
+			echo '<meta property="og:price:amount" content="' . esc_attr( $product->get_price() ) . "\"/>\n";
+			echo '<meta property="og:price:currency" content="' . esc_attr( get_woocommerce_currency() ) . "\"/>\n";
+		}
+
 		if ( $product->is_in_stock() ) {
 			echo '<meta property="og:price:availability" content="instock"/>' . "\n";
 		}
