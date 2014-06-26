@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 
 	checktextdomain: {
 			options: {
-					text_domain: 'wordpress-seo',
+					text_domain: 'yoast-woo-seo',
 					keywords: [
 							'__:1,2d',
 							'_e:1,2d',
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
 			theme: {
 					options: {
 							domainPath: '/languages',
-							potFilename: 'wordpress-seo.pot',
+							potFilename: 'yoast-woo-seo.pot',
 							processPot: function(pot) {
 									pot.headers['report-msgid-bugs-to'] = 'https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/\n';
 									pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
