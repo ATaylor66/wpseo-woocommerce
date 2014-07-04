@@ -1,11 +1,11 @@
 <?php
 
-if( ! class_exists( 'Yoast_Product_WPSEO_WooCommerce' ) ) {
+if( ! class_exists( 'WPSEO_Woo_Product' ) ) {
 
 	/**
-	 * Class Yoast_Product_WPSEO_WooCommerce
+	 * Class WPSEO_Woo_Product
 	 */
-	class Yoast_Product_WPSEO_WooCommerce extends Yoast_Product {
+	class WPSEO_Woo_Product extends Yoast_Product {
 
 		public function __construct() {
 			parent::__construct(

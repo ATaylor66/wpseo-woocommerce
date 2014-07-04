@@ -16,9 +16,9 @@ if ( ! class_exists( 'Yoast_WooCommerce_SEO' ) ) {
 /*******************************************************************
  * Option: wpseo_woo
  *******************************************************************/
-if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
+if ( ! class_exists( 'WPSEO_Woo_Option' ) && class_exists( 'WPSEO_Option' ) ) {
 
-	class WPSEO_Option_Woo extends WPSEO_Option {
+	class WPSEO_Woo_Option extends WPSEO_Option {
 
 		/**
 		 * @var  string  option name
@@ -73,7 +73,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		/**
 		 * Add the actions and filters for the option
 		 *
-		 * @return \WPSEO_Option_Woo
+		 * @return \WPSEO_Woo_Option
 		 */
 		protected function __construct() {
 			parent::__construct();

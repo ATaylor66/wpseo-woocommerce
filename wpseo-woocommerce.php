@@ -12,7 +12,7 @@
  * Copyright 2013 Joost de Valk (email: joost@yoast.com)
  */
 
-if ( ! function_exists( 'add_filter' ) ) {
+if ( !function_exists( 'add_filter' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -61,9 +61,13 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function __construct() {
 
+		// Setup autoloader
+		require_once( dirname( __FILE__ ) . '/classes/class-autoloader.php' );
+		$autoloader = new WPSEO_Woo_Autoloader();
+		spl_autoload_register( array( $autoloader, 'load' ) );
+
 		// Initialize the options
-		require_once( plugin_dir_path( __FILE__ ) . 'class-wpseo-option-woo.php' );
-		$this->option_instance = WPSEO_Option_Woo::get_instance();
+		$this->option_instance = WPSEO_Woo_Option::get_instance();
 		$this->short_name      = $this->option_instance->option_name;
 		$this->options         = get_option( $this->short_name );
 
@@ -98,10 +102,17 @@ class Yoast_WooCommerce_SEO {
 
 			add_filter( 'wpseo_body_length_score', array( $this, 'change_body_length_requirements' ), 10, 2 );
 			add_filter( 'wpseo_linkdex_results', array(
-					$this,
-					'add_woocommerce_specific_content_analysis_tests'
-				), 10, 3 );
+				$this,
+				'add_woocommerce_specific_content_analysis_tests'
+			), 10, 3 );
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'add_product_images_to_content' ), 10, 2 );
+
+			// Meta box
+			$meta_box = new WPSEO_Woo_Products_Feed_Meta_Box();
+			add_filter( 'wpseo_save_metaboxes', array( $meta_box, 'save' ), 10, 1 );
+			add_action( 'wpseo_tab_header', array( $meta_box, 'header' ) );
+			add_action( 'wpseo_tab_content', array( $meta_box, 'content' ) );
+			add_filter( 'add_extra_wpseo_meta_fields', array( $meta_box, 'add_meta_fields_to_wpseo_meta' ) );
 
 		} else {
 			$wpseo_options = WPSEO_Options::get_all();
@@ -126,7 +137,29 @@ class Yoast_WooCommerce_SEO {
 			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
 				add_filter( 'woo_breadcrumbs', 'override_woo_breadcrumbs' );
 			}
+
+			// Products Feed & Feed Rewrite Rules
+			$products_feed_rewrite_rules = new WPSEO_Woo_Products_Feed_Request();
+			$products_feed_rewrite_rules->setup();
 		}
+
+		// Ajax calls
+		add_action( 'wp_ajax_wpseo_woo_get_categories', array( $this, 'ajax_get_categories' ) );
+	}
+
+	/**
+	 * AJAX get categories method
+	 */
+	public function ajax_get_categories() {
+
+		// Check the AJAX nonce
+		check_ajax_referer( 'wpseo_woo_nonce' );
+
+		// Get the parent
+		$parent = ( ( isset( $_POST['parent'] ) ) ? $_POST['parent'] : '' );
+
+		//
+
 	}
 
 	/**
@@ -152,14 +185,12 @@ class Yoast_WooCommerce_SEO {
 
 		// we only need this on admin pages
 		// we don't need this in AJAX requests
-		if ( ! is_admin() || ( defined( "DOING_AJAX" ) && DOING_AJAX ) ) {
+		if ( !is_admin() || ( defined( "DOING_AJAX" ) && DOING_AJAX ) ) {
 			return;
 		}
 
-		require_once( dirname( __FILE__ ) . '/class-product-wpseo-woocommerce.php' );
-
 		$license_manager = new Yoast_Plugin_License_Manager(
-			new Yoast_Product_WPSEO_WooCommerce()
+			new WPSEO_Woo_Product()
 		);
 
 		$license_manager->setup_hooks();
@@ -296,7 +327,7 @@ class Yoast_WooCommerce_SEO {
 					'title' => get_the_title( $attachment_id ),
 					'alt'   => get_post_meta( $attachment_id, '_wp_attachment_image_alt', true )
 				);
-				$images[] = $image;
+				$images[]  = $image;
 
 				unset( $image, $image_src );
 			}
@@ -333,9 +364,9 @@ class Yoast_WooCommerce_SEO {
 	 */
 	public function register_settings_page() {
 		add_submenu_page( 'wpseo_dashboard', __( 'WooCommerce SEO Settings', 'yoast-woo-seo' ), __( 'WooCommerce SEO', 'yoast-woo-seo' ), 'manage_options', $this->short_name, array(
-				$this,
-				'admin_panel'
-			) );
+			$this,
+			'admin_panel'
+		) );
 	}
 
 	/**
@@ -357,7 +388,7 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function admin_panel() {
 
-		if ( ! isset( $GLOBALS['wpseo_admin_pages'] ) ) {
+		if ( !isset( $GLOBALS['wpseo_admin_pages'] ) ) {
 			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
 		}
 		$GLOBALS['wpseo_admin_pages']->admin_header( true, $this->option_instance->group_name, $this->short_name, false );
@@ -559,7 +590,7 @@ class Yoast_WooCommerce_SEO {
 	function og_enhancement() {
 		global $wpseo_og;
 
-		if ( is_product_category() || ! function_exists( 'is_product_category' ) ) {
+		if ( is_product_category() || !function_exists( 'is_product_category' ) ) {
 			global $wp_query;
 			$cat          = $wp_query->get_queried_object();
 			$thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
@@ -569,12 +600,12 @@ class Yoast_WooCommerce_SEO {
 			}
 		}
 
-		if ( ! is_singular( 'product' ) || ! function_exists( 'get_product' ) ) {
+		if ( !is_singular( 'product' ) || !function_exists( 'get_product' ) ) {
 			return;
 		}
 
 		$product = get_product( get_the_ID() );
-		if ( ! is_object( $product ) ) {
+		if ( !is_object( $product ) ) {
 			return;
 		}
 
@@ -625,7 +656,7 @@ class Yoast_WooCommerce_SEO {
 
 			$term_desc = term_description();
 
-			if ( ! empty( $term_desc ) ) {
+			if ( !empty( $term_desc ) ) {
 				$desc = trim( strip_tags( $term_desc ) );
 				$desc = strip_shortcodes( $desc );
 			}
@@ -655,7 +686,7 @@ class Yoast_WooCommerce_SEO {
 	 * @since 1.0
 	 */
 	function twitter_enhancement() {
-		if ( ! is_singular( 'product' ) || ! function_exists( 'get_product' ) ) {
+		if ( !is_singular( 'product' ) || !function_exists( 'get_product' ) ) {
 			return;
 		}
 
@@ -741,7 +772,7 @@ class Yoast_WooCommerce_SEO {
 	/**
 	 * Initialize the plugin defaults.
 	 *
-	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Option_Woo
+	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Woo_Option
 	 */
 	function initialize_defaults() {
 		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
@@ -751,7 +782,7 @@ class Yoast_WooCommerce_SEO {
 	 * Registers the plugins setting for the Settings API
 	 *
 	 * @since      1.0
-	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Option_Woo
+	 * @deprecated 1.1.0 - now auto-handled by class WPSEO_Woo_Option
 	 */
 	function options_init() {
 		_deprecated_function( __CLASS__ . '::' . __METHOD__, 'WooCommerce SEO 1.1.0', null );
@@ -799,7 +830,7 @@ function initialize_yoast_woocommerce_seo() {
 
 	load_plugin_textdomain( 'yoast-woo-seo', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-	if ( ! version_compare( $wp_version, '3.5', '>=' ) ) {
+	if ( !version_compare( $wp_version, '3.5', '>=' ) ) {
 		add_action( 'all_admin_notices', 'yoast_wpseo_woocommerce_wordpress_upgrade_error' );
 	} else if ( defined( 'WPSEO_VERSION' ) ) {
 		if ( version_compare( WPSEO_VERSION, '1.5', '>=' ) ) {
