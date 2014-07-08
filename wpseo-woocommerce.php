@@ -83,6 +83,9 @@ class Yoast_WooCommerce_SEO {
 			$this->upgrade();
 		}
 
+		// Products Feed Manager
+		$products_feed_manager = new WPSEO_Woo_Products_Feed_Manager();
+
 		if ( is_admin() || ( defined( 'DOING_CRON' ) && DOING_CRON ) ) {
 			// Admin page
 			add_action( 'admin_menu', array( $this, 'register_settings_page' ), 20 );
@@ -114,6 +117,10 @@ class Yoast_WooCommerce_SEO {
 			add_action( 'wpseo_tab_content', array( $meta_box, 'content' ) );
 			add_filter( 'add_extra_wpseo_meta_fields', array( $meta_box, 'add_meta_fields_to_wpseo_meta' ) );
 
+			// Javascript required by products feed meta box
+			add_action( 'admin_head', array( $products_feed_manager, 'product_edit_js_nonce' ) );
+			add_action( 'admin_enqueue_scripts', array( $products_feed_manager, 'enqueue_products_feed_js' ) );
+
 		} else {
 			$wpseo_options = WPSEO_Options::get_all();
 
@@ -144,22 +151,7 @@ class Yoast_WooCommerce_SEO {
 		}
 
 		// Ajax calls
-		add_action( 'wp_ajax_wpseo_woo_get_categories', array( $this, 'ajax_get_categories' ) );
-	}
-
-	/**
-	 * AJAX get categories method
-	 */
-	public function ajax_get_categories() {
-
-		// Check the AJAX nonce
-		check_ajax_referer( 'wpseo_woo_nonce' );
-
-		// Get the parent
-		$parent = ( ( isset( $_POST['parent'] ) ) ? $_POST['parent'] : '' );
-
-		//
-
+		add_action( 'wp_ajax_wpseo_woo_get_products_feed_categories', array( $products_feed_manager, 'ajax_get_products_feed_categories' ) );
 	}
 
 	/**
