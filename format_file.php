@@ -91,9 +91,9 @@ class Tax_Collection {
 
 		if ( count( $this->items ) > 0 ) {
 
-			foreach ( $this->items as $item ) {
+			foreach ( $this->items as $key => $item ) {
 
-				$output .= $this->generate_row( $item );
+				$output .= ' "' . $key . '" => array (' . $this->generate_row( $item ) . '),';
 
 			}
 
@@ -101,7 +101,7 @@ class Tax_Collection {
 
 		$output .= ');';
 
-		echo $output;
+		return $output;
 
 	}
 
@@ -137,8 +137,12 @@ foreach ( $all_tax as $tax ) {
 	}
 }
 
+//echo '<pre>';
+//print_r($taxonomies);
+//exit;
+
 // Output
-$taxonomies->output();
+echo $taxonomies->output();
 
 // Exit
 exit;
