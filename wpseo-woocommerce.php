@@ -812,4 +812,6 @@ function initialize_yoast_woocommerce_seo() {
 	}
 }
 
-add_action( 'plugins_loaded', 'initialize_yoast_woocommerce_seo', 20 );
+if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
+	add_action( 'plugins_loaded', 'initialize_yoast_woocommerce_seo', 20 );
+}
