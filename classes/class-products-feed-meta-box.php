@@ -21,14 +21,13 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 
 		// Format array for input select field
 		$input_categories = array();
-		$input_categories['none'] = 'None';
 		if(count($categories) > 0 ) {
 			foreach($categories as $category) {
 				$input_categories[$category] = $category;
 			}
 		}
 
-		$mbs['products-feed-category[]'] = array(
+		$mbs['products-feed-category[0]'] = array(
 			"name"        => "category",
 			"std"         => "",
 			"type"        => "select",

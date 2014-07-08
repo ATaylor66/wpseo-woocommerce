@@ -50,7 +50,9 @@ class WPSEO_Woo_Products_Feed_Manager {
 		$categories = $this->get_categories( $parents );
 
 		// Testing
-		print_r( $categories );
+		echo json_encode( $categories );
+
+		exit;
 
 	}
 
@@ -80,6 +82,9 @@ class WPSEO_Woo_Products_Feed_Manager {
 
 		// Sort categories
 		sort( $categories );
+
+		// Prepend 'none' to categories
+		array_unshift( $categories, __( 'None', 'yoast-woo-seo' ) );
 
 		// Return categories
 		return $categories;
