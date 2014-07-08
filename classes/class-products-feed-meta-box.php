@@ -16,12 +16,25 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 	public function get_meta_boxes() {
 		$mbs                             = array();
 
-		$mbs['newssitemap-stocktickers'] = array(
-				"name"        => "newssitemap-stocktickers",
-				"std"         => "",
-				"type"        => "text",
-				"title"       => __( "Stock Tickers", 'wordpress-seo-news' ),
-				"description" => __( 'A comma-separated list of up to 5 stock tickers of the companies, mutual funds, or other financial entities that are the main subject of the article. Each ticker must be prefixed by the name of its stock exchange, and must match its entry in Google Finance. For example, "NASDAQ:AMAT" (but not "NASD:AMAT"), or "BOM:500325" (but not "BOM:RIL").', 'wordpress-seo-news' ),
+		$products_feed_manager = new WPSEO_Woo_Products_Feed_Manager();
+		$categories = $products_feed_manager->get_categories();
+
+		// Format array for input select field
+		$input_categories = array();
+		$input_categories['none'] = 'None';
+		if(count($categories) > 0 ) {
+			foreach($categories as $category) {
+				$input_categories[$category] = $category;
+			}
+		}
+
+		$mbs['products-feed-category[]'] = array(
+			"name"        => "category",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => $input_categories,
+			"title"       => __( "Product category", 'yoast-woo-seo' ),
+			"class"       => "wpseo_woo_pf_categories"
 		);
 
 
