@@ -1,12 +1,36 @@
 jQuery(document).ready(function ($) {
 
+	Array.max = function (array) {
+		return Math.max.apply(Math, array);
+	};
+
 	$.fn.wpseo_bind_pf_category = function () {
 
+		// The current select input
 		var cur_select = this;
 
-		// Set the rel number
-		$(cur_select).attr('rel', ($('.wpseo_woo_pf_categories').length - 1));
+		// Find highest rel
+		var rels = new Array();
+		$('.wpseo_woo_pf_categories').each(function (index) {
+			if (undefined != $(this).attr('rel')) {
+				rels.push($(this).attr('rel'));
+			}
 
+		});
+
+		// Set the rel number
+		max_rel = -1;
+		if (rels.length > 0) {
+			var max_rel = Array.max(rels);
+			if (isNaN(max_rel)) {
+				max_rel = -1;
+			}
+		}
+
+		console.info(max_rel);
+		$(cur_select).attr('rel', (max_rel + 1 ));
+
+		// Bind change event
 		$(cur_select).change(function (event) {
 
 			// Remove child category select boxes
@@ -66,6 +90,8 @@ jQuery(document).ready(function ($) {
 	};
 
 	// Bind the select inputs
-	$('.wpseo_woo_pf_categories').wpseo_bind_pf_category();
+	$.each($('.wpseo_woo_pf_categories'), function (k, v) {
+		$(v).wpseo_bind_pf_category();
+	});
 
 });

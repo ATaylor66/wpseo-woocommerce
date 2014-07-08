@@ -113,6 +113,7 @@ class Yoast_WooCommerce_SEO {
 			// Meta box
 			$meta_box = new WPSEO_Woo_Products_Feed_Meta_Box();
 			add_filter( 'wpseo_save_metaboxes', array( $meta_box, 'save' ), 10, 1 );
+			add_action( 'wpseo_saved_postdata', array( $meta_box, 'save_category') );
 			add_action( 'wpseo_tab_header', array( $meta_box, 'header' ) );
 			add_action( 'wpseo_tab_content', array( $meta_box, 'content' ) );
 			add_filter( 'add_extra_wpseo_meta_fields', array( $meta_box, 'add_meta_fields_to_wpseo_meta' ) );
