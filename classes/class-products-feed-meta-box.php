@@ -16,16 +16,144 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 	public function get_meta_boxes() {
 		$mbs = array();
 
-		/*
-				$mbs['products-feed-category[]'] = array(
-					"name"        => "category",
-					"std"         => "",
-					"type"        => "select",
-					"options"     => $input_categories,
-					"title"       => __( "Product category", 'yoast-woo-seo' ),
-					"class"       => "wpseo_woo_pf_categories"
-				);
-		*/
+
+		$mbs['pf-condition'] = array(
+			"name"        => "products-feed-condition",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'new'         => __( 'New', 'yoast-woo-seo' ),
+				'used'        => __( 'Used', 'yoast-woo-seo' ),
+				'refurbished' => __( 'Refurbished', 'yoast-woo-seo' )
+			),
+			"title"       => __( 'Condition', 'yoast-woo-seo' ),
+			"description" => __( 'Condition or state of the item.', 'yoast-woo-seo' ),
+		);
+
+		// Unique Product Identifiers
+
+		$mbs['pf-brand'] = array(
+			"name"        => "products-feed-brand",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Brand', 'yoast-woo-seo' ),
+			"description" => __( 'You must not provide your store name as the brand unless you manufacture the product.', 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-gtin'] = array(
+			"name"        => "products-feed-gtin",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'GTIN', 'yoast-woo-seo' ),
+			"description" => __( "Use the 'gtin' attribute to submit Global Trade Item Numbers (GTINs).", 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-mpn'] = array(
+			"name"        => "products-feed-mpn",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'MPN', 'yoast-woo-seo' ),
+			"description" => __( 'A Manufacturer Part Number is used to reference and identify a product using a manufacturer specific naming other than GTIN.', 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-identifier_exists'] = array(
+			"name"        => "products-feed-identifier_exists",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'true'  => __( 'TRUE', 'yoast-woo-seo' ),
+				'false' => __( 'FALSE', 'yoast-woo-seo' )
+			),
+			"title"       => __( 'Identifier Exists', 'yoast-woo-seo' ),
+			"description" => __( "Some products don't have an unique identifier like gtin/mpn, if this is one of these products leave the above identifier fields blank and set this to FALSE.", 'yoast-woo-seo' ),
+		);
+
+		// Apparel Products
+		$mbs['pf-gender'] = array(
+			"name"        => "products-feed-gender",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'male'   => __( 'Male', 'yoast-woo-seo' ),
+				'female' => __( 'Female', 'yoast-woo-seo' ),
+				'unisex' => __( 'Unisex', 'yoast-woo-seo' )
+			),
+			"title"       => __( 'Gender', 'yoast-woo-seo' ),
+			"description" => __( "Select the gender this product targets.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
+
+		$mbs['pf-age_group'] = array(
+			"name"        => "products-feed-age_group",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'newborn' => __( 'Newborn', 'yoast-woo-seo' ),
+				'infant'  => __( 'Infant', 'yoast-woo-seo' ),
+				'toddler' => __( 'Toddler', 'yoast-woo-seo' ),
+				'kids'    => __( 'Kids', 'yoast-woo-seo' ),
+				'adult'   => __( 'Adult', 'yoast-woo-seo' )
+			),
+			"title"       => __( 'Age Group', 'yoast-woo-seo' ),
+			"description" => __( "Use this to indicate the demographic of your item.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
+
+		$mbs['pf-color'] = array(
+			"name"        => "products-feed-color",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Color', 'yoast-woo-seo' ),
+			"description" => __( "This defines the dominant color(s) for an item, state colors as text (e.g. 'Black'). When a single item has multiple colors, you can submit up to two additional values as accent colors. Combine the colors with ‘/’ in order of prominence, limit the number of colors submitted to three values.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
+
+		$mbs['pf-size'] = array(
+			"name"        => "products-feed-size",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Size', 'yoast-woo-seo' ),
+			"description" => __( "This indicates the size of a product. You may provide any values which are appropriate to your items. You can also submit the ‘size type’ and ‘size system’ attributes to provide more details about your sizing.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
+
+		$mbs['pf-size_type'] = array(
+			"name"        => "products-feed-size_type",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'regular'      => __( 'Regular', 'yoast-woo-seo' ),
+				'petite'       => __( 'Petite', 'yoast-woo-seo' ),
+				'plus'         => __( 'Plus', 'yoast-woo-seo' ),
+				'big and tall' => __( 'Big and Tall', 'yoast-woo-seo' ),
+				'maternity'    => __( 'Maternity', 'yoast-woo-seo' )
+			),
+			"title"       => __( 'Size Type', 'yoast-woo-seo' ),
+			"description" => __( "Use this attribute to indicate the cut of your item.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
+
+		$mbs['pf-size_system'] = array(
+			"name"        => "products-feed-size_system",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'US'         => __( 'US', 'yoast-woo-seo' ),
+				'UK'         => __( 'UK', 'yoast-woo-seo' ),
+				'EU'         => __( 'EU', 'yoast-woo-seo' ),
+				'DE'         => __( 'DE', 'yoast-woo-seo' ),
+				'FR'         => __( 'FR', 'yoast-woo-seo' ),
+				'JP'         => __( 'JP', 'yoast-woo-seo' ),
+				'CN (China)' => __( 'CN (China)', 'yoast-woo-seo' ),
+				'IT'         => __( 'IT', 'yoast-woo-seo' ),
+				'BR'         => __( 'BR', 'yoast-woo-seo' ),
+				'MEX'        => __( 'MEX', 'yoast-woo-seo' ),
+				'AU'         => __( 'AU', 'yoast-woo-seo' ),
+			),
+			"title"       => __( 'Size System', 'yoast-woo-seo' ),
+			"description" => __( "Use this attribute to indicate the country’s sizing system in which you are submitting your item.", 'yoast-woo-seo' ),
+			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
+		);
 
 
 		return $mbs;
@@ -101,7 +229,7 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 		$categories_meta = get_post_meta( $post->ID, 'yoast_wpseo_products-feed-category', true );
 
 		// Add the Product category table
-		$content .= '<table class="form-table"><tbody><tr><th>Product category:</th><td>';
+		$content .= '<tr><th>Product category:</th><td>';
 
 		// Loop through meta categories
 		if ( is_array( $categories_meta ) && count( $categories_meta ) > 0 ) {
@@ -137,7 +265,7 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 		}
 
 		// Category table closer
-		$content .= '</td></tr></tbody></table>';
+		$content .= '</td></tr>';
 
 		// Add the metabox fields
 		foreach ( $this->get_meta_boxes() as $meta_key => $meta_box ) {

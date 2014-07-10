@@ -27,11 +27,17 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		console.info(max_rel);
 		$(cur_select).attr('rel', (max_rel + 1 ));
 
 		// Bind change event
 		$(cur_select).change(function (event) {
+
+			// Switch category specific fields if the main category changed
+			if (-1 == max_rel) {
+				wpseo_pf_hide_cat_specific();
+				var cat = $(cur_select).find('option:selected').val().toString().replace("&", "").replace(/\s+/g, "-").toLowerCase();
+				wpseo_pf_show_cat_specific(cat);
+			}
 
 			// Remove child category select boxes
 			var cur_rel = $(cur_select).attr('rel');
@@ -88,6 +94,22 @@ jQuery(document).ready(function ($) {
 		});
 
 	};
+
+	/**
+	 * Hide all category specific fields
+	 */
+	function wpseo_pf_hide_cat_specific() {
+		$('.pf-cat-specific').closest('tr').hide();
+	}
+
+	/**
+	 * Display category specific fields by cat
+	 *
+	 * @param cat
+	 */
+	function wpseo_pf_show_cat_specific(cat) {
+		$('.pf-cat-' + cat).closest('tr').show();
+	}
 
 	// Bind the select inputs
 	$.each($('.wpseo_woo_pf_categories'), function (k, v) {
