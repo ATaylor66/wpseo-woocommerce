@@ -155,6 +155,84 @@ class WPSEO_Woo_Products_Feed_Meta_Box extends WPSEO_Metabox {
 			"class"       => 'pf-cat-specific pf-cat-apparel-accessories',
 		);
 
+		$mbs['pf-adult'] = array(
+			"name"        => "products-feed-adult",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'FALSE' => __( 'FALSE', 'yoast-woo-seo' ),
+				'TRUE'  => __( 'TRUE', 'yoast-woo-seo' ),
+			),
+			"title"       => __( 'Adult', 'yoast-woo-seo' ),
+			"description" => __( "Google cares about the family status of the product listings you submit in order to make sure that appropriate content is shown to an appropriate audience. Select 'TRUE' to indicate that this product is considered “adult” or “non-family safe”.", 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-multipack'] = array(
+			"name"        => "products-feed-multipack",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Multipack', 'yoast-woo-seo' ),
+			"description" => __( "Multipacks are packages that include several identical products to create a larger unit of sale, submitted as a single item. Merchant-defined multipacks are custom groups of identical products submitted as a single unit of sale.", 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-is_bundle'] = array(
+			"name"        => "products-feed-is_bundle",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'FALSE' => __( 'FALSE', 'yoast-woo-seo' ),
+				'TRUE'  => __( 'TRUE', 'yoast-woo-seo' ),
+			),
+			"title"       => __( 'Is Bundle', 'yoast-woo-seo' ),
+			"description" => __( "Merchant-defined bundles are custom groupings of different products defined by a merchant and sold together for a single price. A bundle features a main item sold with various accessories or add-ons, such as a camera combined with a bag and a lens. The main item of a bundle is the featured product of those items included in the bundle.", 'yoast-woo-seo' ),
+		);
+
+		// Adwords
+		$mbs['pf-adwords_grouping'] = array(
+			"name"        => "products-feed-adwords_grouping",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Adwords Grouping', 'yoast-woo-seo' ),
+			"description" => __( "Used to group products in an arbitrary way. It can be used for product filters to limit a campaign to a group of products, or product targets to bid differently for a group of products. Required if you want to bid differently on different subsets of products. It can only hold one value.", 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-adwords_labels'] = array(
+			"name"        => "products-feed-adwords_labels",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Adwords Labels', 'yoast-woo-seo' ),
+			"description" => __( "Very similar to adwords_grouping, but it will only only work on CPC. It can hold multiple values (seperated by a comma), allowing a product to be tagged with multiple labels.", 'yoast-woo-seo' ),
+		);
+
+		$mbs['pf-adwords_redirect'] = array(
+			"name"        => "products-feed-adwords_redirect",
+			"std"         => "",
+			"type"        => "text",
+			"title"       => __( 'Adwords Redirect', 'yoast-woo-seo' ),
+			"description" => __( "Allows advertisers to specify a separate URL that can be used to track traffic coming from Google Shopping. If this attribute is provided, you must make sure that the URL provided through 'adwords redirect' will redirect to the same website as given in the ‘link’ or ‘mobile link’ attribute.", 'yoast-woo-seo' ),
+		);
+
+		// energy_efficiency_class
+		$mbs['pf-energy_efficiency_class'] = array(
+			"name"        => "products-feed-energy_efficiency_class",
+			"std"         => "",
+			"type"        => "select",
+			"options"     => array(
+				'none' => __( 'None', 'yoast-woo-seo' ),
+				'A+++' => __( 'A+++', 'yoast-woo-seo' ),
+				'A++'  => __( 'A++', 'yoast-woo-seo' ),
+				'A+'   => __( 'A+', 'yoast-woo-seo' ),
+				'A'    => __( 'A', 'yoast-woo-seo' ),
+				'B'    => __( 'B', 'yoast-woo-seo' ),
+				'C'    => __( 'C', 'yoast-woo-seo' ),
+				'D'    => __( 'D', 'yoast-woo-seo' ),
+				'E'    => __( 'E', 'yoast-woo-seo' ),
+				'F'    => __( 'F', 'yoast-woo-seo' ),
+				'G'    => __( 'G', 'yoast-woo-seo' ),
+			),
+			"title"       => __( 'Energy efficiency class', 'yoast-woo-seo' ),
+			"description" => __( "This attribute allows you to submit the energy label for your applicable products in feeds targeting European Union countries and Switzerland.", 'yoast-woo-seo' ),
+		);
 
 		return $mbs;
 	}

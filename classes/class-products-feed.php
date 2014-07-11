@@ -203,6 +203,58 @@ class WPSEO_Woo_Products_Feed {
 						$item[ $this->prefix . 'size_system' ] = $size_system;
 					}
 
+					// Add the shipping weight
+					if ( '' != $wc_product->get_weight() ) {
+						$item[ $this->prefix . 'shipping_weight' ] = $wc_product->get_weight() . ' ' . get_option( 'woocommerce_weight_unit' );
+					}
+
+					// Adult
+					$adult = WPSEO_Meta::get_value( 'pf-adult', $wc_product->id );
+					if ( '' != $adult ) {
+						$item[ $this->prefix . 'adult' ] = $adult;
+					}
+
+					// multipack
+					$multipack = WPSEO_Meta::get_value( 'pf-multipack', $wc_product->id );
+					if ( '' != $multipack ) {
+						$item[ $this->prefix . 'multipack' ] = $multipack;
+					}
+
+					// is_bundle
+					$is_bundle = WPSEO_Meta::get_value( 'pf-is_bundle', $wc_product->id );
+					if ( '' != $is_bundle ) {
+						$item[ $this->prefix . 'is_bundle' ] = $is_bundle;
+					}
+
+					// adwords_grouping
+					$adwords_grouping = WPSEO_Meta::get_value( 'pf-adwords_grouping', $wc_product->id );
+					if ( '' != $adwords_grouping ) {
+						$item[ $this->prefix . 'adwords_grouping' ] = $adwords_grouping;
+					}
+
+					// adwords_labels
+					$adwords_labels = WPSEO_Meta::get_value( 'pf-adwords_labels', $wc_product->id );
+					if ( '' != $adwords_labels ) {
+						$adwords_labels_arr = explode( ',', $adwords_labels );
+						if ( count( $adwords_labels_arr ) && count( $adwords_labels_arr ) > 0 ) {
+							foreach ( $adwords_labels_arr as $adwords_label ) {
+								$item[ $this->prefix . 'adwords_label' ][] = trim( $adwords_label );
+							}
+						}
+					}
+
+					// adwords_redirect
+					$adwords_redirect = WPSEO_Meta::get_value( 'pf-adwords_redirect', $wc_product->id );
+					if ( '' != $adwords_redirect ) {
+						$item[ $this->prefix . 'adwords_redirect' ] = $adwords_redirect;
+					}
+
+					// energy_efficiency_class
+					$energy_efficiency_class = WPSEO_Meta::get_value( 'pf-energy_efficiency_class', $wc_product->id );
+					if ( '' != $energy_efficiency_class && 'none' != $energy_efficiency_class ) {
+						$item[ $this->prefix . 'energy_efficiency_class' ] = $energy_efficiency_class;
+					}
+
 				}
 
 				// Add the new item to our items array
@@ -230,13 +282,19 @@ class WPSEO_Woo_Products_Feed {
 				echo '<item>' . PHP_EOL;
 
 				foreach ( $item as $tag => $value ) {
-					echo '<' . $tag . '>' . $value . '</' . $tag . '>' . PHP_EOL;
+					if ( is_array( $value ) ) {
+						foreach ( $value as $sub_value ) {
+							echo '<' . $tag . '>' . $sub_value . '</' . $tag . '>' . PHP_EOL;
+						}
+					} else {
+						echo '<' . $tag . '>' . $value . '</' . $tag . '>' . PHP_EOL;
+					}
+
 				}
 
 				echo '</item>' . PHP_EOL;
 			}
 		}
-
 
 		echo '</channel>' . PHP_EOL;
 		echo '</rss>' . PHP_EOL;
