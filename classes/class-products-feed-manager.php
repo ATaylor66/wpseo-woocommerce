@@ -17,9 +17,6 @@ class WPSEO_Woo_Products_Feed_Manager {
 		echo '<script type="text/javascript">' . PHP_EOL;
 		echo 'var wpseo_woo_products_feed_nonce = "' . $ajax_nonce = wp_create_nonce( 'wpseo-woo-very-secret' ) . '";' . PHP_EOL;
 		echo '</script>' . PHP_EOL;
-
-		// Hide the pf-cat-specific classes by default
-//		echo '<style type="text/css">.pf-cat-specific{display: none;}</style>' . PHP_EOL;
 	}
 
 	/**
