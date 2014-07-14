@@ -119,7 +119,7 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'add_extra_wpseo_meta_fields', array( $meta_box, 'add_meta_fields_to_wpseo_meta' ) );
 
 			// Javascript required by products feed meta box
-			add_action( 'admin_head', array( $products_feed_manager, 'product_edit_js_nonce' ) );
+			add_action( 'admin_head', array( $products_feed_manager, 'product_edit_admin_head' ) );
 			add_action( 'admin_enqueue_scripts', array( $products_feed_manager, 'enqueue_products_feed_js' ) );
 
 		} else {

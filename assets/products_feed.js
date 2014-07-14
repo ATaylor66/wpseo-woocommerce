@@ -15,7 +15,6 @@ jQuery(document).ready(function ($) {
 			if (undefined != $(this).attr('rel')) {
 				rels.push($(this).attr('rel'));
 			}
-
 		});
 
 		// Set the rel number
@@ -28,6 +27,17 @@ jQuery(document).ready(function ($) {
 		}
 
 		$(cur_select).attr('rel', (max_rel + 1 ));
+
+		// Must be the first cat
+		if( -1 == max_rel ) {
+			// Hide all cat specific fields
+			wpseo_pf_hide_cat_specific();
+
+			// Display specific cat fields of first select
+			var cat = $(cur_select).find('option:selected').val().toString().replace("&", "").replace(/\s+/g, "-").toLowerCase();
+			console.info(cat);
+			wpseo_pf_show_cat_specific(cat);
+		}
 
 		// Bind change event
 		$(cur_select).change(function (event) {

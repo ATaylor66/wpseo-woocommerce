@@ -5,7 +5,7 @@ class WPSEO_Woo_Products_Feed_Manager {
 	/**
 	 *  The JavaScript for categories on product edit pages
 	 */
-	public function product_edit_js_nonce() {
+	public function product_edit_admin_head() {
 		global $post, $pagenow;
 
 		// Only use script on product page
@@ -17,6 +17,9 @@ class WPSEO_Woo_Products_Feed_Manager {
 		echo '<script type="text/javascript">' . PHP_EOL;
 		echo 'var wpseo_woo_products_feed_nonce = "' . $ajax_nonce = wp_create_nonce( 'wpseo-woo-very-secret' ) . '";' . PHP_EOL;
 		echo '</script>' . PHP_EOL;
+
+		// Hide the pf-cat-specific classes by default
+//		echo '<style type="text/css">.pf-cat-specific{display: none;}</style>' . PHP_EOL;
 	}
 
 	/**
