@@ -35,7 +35,6 @@ jQuery(document).ready(function ($) {
 
 			// Display specific cat fields of first select
 			var cat = $(cur_select).find('option:selected').val().toString().replace("&", "").replace(/\s+/g, "-").toLowerCase();
-			console.info(cat);
 			wpseo_pf_show_cat_specific(cat);
 		}
 
