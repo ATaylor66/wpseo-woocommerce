@@ -124,7 +124,7 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
 			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
-				add_filter( 'woo_breadcrumbs', 'override_woo_breadcrumbs' );
+				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
 			}
 		}
 	}
