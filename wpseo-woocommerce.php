@@ -125,6 +125,7 @@ class Yoast_WooCommerce_SEO {
 
 			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
 				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
+				add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
 			}
 		}
 	}
@@ -140,6 +141,38 @@ class Yoast_WooCommerce_SEO {
 	 */
 	public function override_woo_breadcrumbs() {
 		return yoast_breadcrumb( '<div class="breadcrumb breadcrumbs woo-breadcrumbs"><div class="breadcrumb-trail">', '</div></div>', false );
+	}
+
+	public function add_attribute_to_breadcrumbs( $crumbs ) {
+		global $_chosen_attributes;
+
+		// Copy the array
+		$yoast_chosen_attributes = $_chosen_attributes;
+
+		// Check if the attribute filter is used
+		if ( is_array( $yoast_chosen_attributes ) && count( $yoast_chosen_attributes ) > 0 ) {
+			// Store keys
+			$att_keys = array_keys( $yoast_chosen_attributes );
+
+			// We got an attribute filter, get the first Attribute
+			$att_group = array_shift( $yoast_chosen_attributes );
+
+			if ( is_array( $att_group['terms'] ) && count( $att_group['terms'] ) > 0 ) {
+
+				// Get the attribute ID
+				$att = array_shift( $att_group['terms'] );
+
+				// Get the term
+				$term = get_term( (int) $att, array_shift( $att_keys ) );
+
+				if ( is_object( $term ) ) {
+					$crumbs[] = array( 'term' => $term );
+				}
+
+			}
+		}
+
+		return $crumbs;
 	}
 
 	/**
