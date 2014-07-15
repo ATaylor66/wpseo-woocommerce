@@ -130,7 +130,7 @@ class Yoast_WooCommerce_SEO {
 			}
 
 			// Fix the title
-			add_filter( 'woo_title', array( $this, 'strip_blogname_from_title' ), 10, 2 );
+			add_filter( 'woo_title', array( $this, 'strip_blogname_from_title' ), 10, 1 );
 		}
 	}
 
