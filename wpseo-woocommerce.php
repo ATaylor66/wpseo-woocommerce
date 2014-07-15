@@ -123,11 +123,28 @@ class Yoast_WooCommerce_SEO {
 
 			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
+			// Fix breadcrumbs
 			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
 				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
 				add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
 			}
+
+			// Fix the title
+			add_filter( 'woo_title', array( $this, 'strip_blogname_from_title' ), 10, 2 );
 		}
+	}
+
+	/**
+	 * Strip the extra blogname from the title
+	 *
+	 * @param $title
+	 *
+	 * @return mixed
+	 */
+	public function strip_blogname_from_title( $title ) {
+		$title = substr( $title, 0, - ( strlen( get_bloginfo( 'name' ) ) ) );
+
+		return $title;
 	}
 
 	/**
@@ -143,6 +160,13 @@ class Yoast_WooCommerce_SEO {
 		return yoast_breadcrumb( '<div class="breadcrumb breadcrumbs woo-breadcrumbs"><div class="breadcrumb-trail">', '</div></div>', false );
 	}
 
+	/**
+	 * Add the selected attribute to the breadcrumb
+	 *
+	 * @param $crumbs
+	 *
+	 * @return array
+	 */
 	public function add_attribute_to_breadcrumbs( $crumbs ) {
 		global $_chosen_attributes;
 
