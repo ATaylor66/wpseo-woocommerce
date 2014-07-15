@@ -128,23 +128,7 @@ class Yoast_WooCommerce_SEO {
 				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
 				add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
 			}
-
-			// Fix the title
-			add_filter( 'woo_title', array( $this, 'strip_blogname_from_title' ), 10, 1 );
 		}
-	}
-
-	/**
-	 * Strip the extra blogname from the title
-	 *
-	 * @param $title
-	 *
-	 * @return mixed
-	 */
-	public function strip_blogname_from_title( $title ) {
-		$title = substr( $title, 0, - ( strlen( get_bloginfo( 'name' ) ) ) );
-
-		return $title;
 	}
 
 	/**
