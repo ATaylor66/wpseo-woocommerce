@@ -58,6 +58,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			'data2_type'          => 'stock',
 			'schema_brand'        => '',
 			'schema_manufacturer' => '',
+			'breadcrumbs'         => true,
 			'hide_columns'        => true,
 			'metabox_woo_top'     => true,
 		);
@@ -180,6 +181,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 						break;
 
 					/* boolean (checkbox) field - may not be in form */
+					case 'breadcrumbs':
 					case 'hide_columns':
 					case 'metabox_woo_top':
 						if ( isset( $dirty[$key] ) ) {
