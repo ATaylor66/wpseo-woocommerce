@@ -465,7 +465,8 @@ class Yoast_WooCommerce_SEO {
 		}
 		unset( $tax, $sel );
 		echo '
-		</select>';
+		</select>
+		<br class="clear"/>';
 
 		$wpseo_options = WPSEO_Options::get_all();
 		if ( $wpseo_options['breadcrumbs-enable'] === true ) {
