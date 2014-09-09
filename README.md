@@ -1,8 +1,8 @@
 WooCommerce Yoast SEO
 =====================
 Requires at least: 3.5<br>
-Tested up to: 3.9.1<br>
-Stable tag: 1.1.4<br>
+Tested up to: 4.0<br>
+Stable tag: 1.1.5<br>
 Depends: wordpress-seo
 
 This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
@@ -29,6 +29,9 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 
 Changelog
 =========
+
+### 1.1.5: September 9th, 2014
+* Prevent adding product archive link to XML sitemap
 
 ### 1.1.4: July 15th, 2014
 * Add `wpseo_woocommerce_og_price` filter. Returning false on it prevents price from being put out in OpenGraph tags.
@@ -72,11 +75,3 @@ Changelog
 
 ### 1.0: April 8th, 2013
 * Initial version.
-
-
-
-Upgrade Notice
-===============
-
-### 1.1: March 11th, 2014
-* Please upgrade the WordPress SEO plugin to version 1.5 as well for compatibility.

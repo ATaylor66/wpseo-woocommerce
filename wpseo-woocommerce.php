@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name:    Yoast WooCommerce SEO
- * Version:     1.1.4
- * Plugin URI:  http://yoast.com/wordpress/yoast-woocommerce-seo/
+ * Version:     1.1.5
+ * Plugin URI:  https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/
  * Description: This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
- * Author:      Joost de Valk
- * Author URI:  http://yoast.com
+ * Author:      Team Yoast
+ * Author URI:  https://yoast.com
  * Text Domain:    yoast-woo-seo
  * Domain Path:    /languages/
  *
- * Copyright 2013 Joost de Valk (email: joost@yoast.com)
+ * Copyright 2014 Yoast BV (email: supportyoast.com)
  */
 
 if ( ! function_exists( 'add_filter' ) ) {
@@ -38,7 +38,7 @@ class Yoast_WooCommerce_SEO {
 	/**
 	 * @const string Version of the plugin.
 	 */
-	const VERSION = '1.1.4';
+	const VERSION = '1.1.5';
 
 	/**
 	 * @var Yoast_Plugin_License_Manager
