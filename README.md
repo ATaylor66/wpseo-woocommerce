@@ -3,7 +3,6 @@ WooCommerce Yoast SEO
 Requires at least: 3.5<br>
 Tested up to: 4.0<br>
 Stable tag: 1.1.5<br>
-Depends: wordpress-seo
 
 This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
 
