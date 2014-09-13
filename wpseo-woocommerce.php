@@ -710,16 +710,16 @@ class Yoast_WooCommerce_SEO {
 			switch ( $this->options[ 'data' . $i . '_type' ] ) {
 				case 'stock':
 					$product_atts[ 'label' . $i ] = __( 'In stock', 'yoast-woo-seo' );
-					$product_atts[ 'data' . $i ]  = ( $product->is_in_stock() ) ? __( 'Yes' ) : __( 'No' );
+					$product_atts[ 'data' . $i ]  = ( $product->is_in_stock() ) ? __( 'Yes', 'yoast-woo-seo' ) : __( 'No', 'yoast-woo-seo' );
 					break;
 
 				case 'category':
-					$product_atts[ 'label' . $i ] = __( 'Category', 'woocommerce' );
+					$product_atts[ 'label' . $i ] = __( 'Category', 'yoast-woo-seo' );
 					$product_atts[ 'data' . $i ]  = strip_tags( get_the_term_list( get_the_ID(), 'product_cat', '', ', ' ) );
 					break;
 
 				case 'price':
-					$product_atts[ 'label' . $i ] = __( 'Price', 'woocommerce' );
+					$product_atts[ 'label' . $i ] = __( 'Price', 'yoast-woo-seo' );
 					$product_atts[ 'data' . $i ]  = strip_tags( wc_price( $product->get_price() ) );
 					break;
 

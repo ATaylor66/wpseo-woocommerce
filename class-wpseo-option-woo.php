@@ -80,8 +80,8 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 
 			// Set and translate the valid data types
 			$this->valid_data_types = array(
-				'price'	=> __( 'Price', 'woocommerce' ),
-				'stock'	=> __( 'Stock', 'woocommerce' ),
+				'price'	=> __( 'Price', 'yoast-woo-seo' ),
+				'stock'	=> __( 'Stock', 'yoast-woo-seo' ),
 			);
 		}
 
