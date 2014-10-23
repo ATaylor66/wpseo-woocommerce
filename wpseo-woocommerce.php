@@ -702,6 +702,14 @@ class Yoast_WooCommerce_SEO {
 					} elseif ( $product->post->post_content != '' ) {
 						$metadesc = $product->post->post_content;
 					}
+
+					if ( ! empty( $metadesc ) ) {
+						$meta_length = strlen( $metadesc );
+						$meta_limit  = 156;
+						if ( $meta_length > $meta_limit ) {
+							$metadesc = substr( $metadesc, 0, $meta_limit - $meta_length );
+						}
+					}
 				}
 			}
 		}
