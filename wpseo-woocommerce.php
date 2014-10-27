@@ -704,11 +704,7 @@ class Yoast_WooCommerce_SEO {
 					}
 
 					if ( ! empty( $metadesc ) ) {
-						$meta_length = strlen( $metadesc );
-						$meta_limit  = 156;
-						if ( $meta_length > $meta_limit ) {
-							$metadesc = substr( $metadesc, 0, $meta_limit - $meta_length );
-						}
+						$metadesc = wp_html_excerpt( $metadesc, 156 );
 					}
 				}
 			}
