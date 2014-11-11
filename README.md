@@ -2,7 +2,7 @@ WooCommerce Yoast SEO
 =====================
 Requires at least: 3.5<br>
 Tested up to: 4.0<br>
-Stable tag: 1.1.5<br>
+Stable tag: 1.1.6<br>
 
 This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
 
@@ -28,6 +28,9 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 
 Changelog
 =========
+
+### 1.1.6: November 11th, 2014
+* Added translations for Polish
 
 ### 1.1.5: September 9th, 2014
 * Prevent adding product archive link to XML sitemap
