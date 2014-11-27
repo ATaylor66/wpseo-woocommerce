@@ -107,6 +107,9 @@ class Yoast_WooCommerce_SEO {
 		} else {
 			$wpseo_options = WPSEO_Options::get_all();
 
+			// Add metadescription filter
+			add_filter( 'wpseo_metadesc', array( $this, 'metadesc' ) );
+
 			// OpenGraph
 			add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
 			add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
@@ -675,6 +678,39 @@ class Yoast_WooCommerce_SEO {
 		}
 
 		return $desc;
+	}
+
+	/**
+	 * If metadesc is empty check which value we should use
+	 *
+	 * On empty metadesc it will check for post_excerpt, otherwise it will use the full product description. If all empty
+	 * just return value $metadesc
+	 *
+	 * @param string $metadesc
+	 *
+	 * @return string
+	 */
+	public function metadesc( $metadesc ) {
+
+		if ( $metadesc == '' ) {
+			if ( is_singular( 'product' ) && function_exists( 'get_product' ) ) {
+				$product = get_product( get_the_ID() );
+				if ( is_object( $product ) ) {
+
+					if ( $product->post->post_excerpt != '' ) {
+						$metadesc = $product->post->post_excerpt;
+					} elseif ( $product->post->post_content != '' ) {
+						$metadesc = $product->post->post_content;
+					}
+
+					if ( ! empty( $metadesc ) ) {
+						$metadesc = wp_html_excerpt( $metadesc, 156 );
+					}
+				}
+			}
+		}
+
+		return $metadesc;
 	}
 
 
