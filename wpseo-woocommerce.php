@@ -121,7 +121,7 @@ class Yoast_WooCommerce_SEO {
 			add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
 
 			add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
-			add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
+			add_filter( 'wpseo_sitemap_post_type_archive_link', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
 
 			add_filter( 'post_type_archive_link', array( $this, 'xml_post_type_archive_link' ), 10, 2 );
 			add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
