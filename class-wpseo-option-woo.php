@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Internals
+ * @package    Internals
  * @since      1.1.0
  * @version    1.1.0
  */
@@ -39,7 +39,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		 * @var  bool  whether this option is only for when the install is multisite
 		 */
 		public $multisite_only = false;
-		
+
 		/**
 		 * @var int Database version to check whether the plugins options need updating.
 		 */
@@ -62,12 +62,11 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			'hide_columns'        => true,
 			'metabox_woo_top'     => true,
 		);
-		
+
 		/**
-		 * @var	array	$valid_data_types Array of pre-defined valid data types, will be enriched with taxonomies
+		 * @var    array $valid_data_types Array of pre-defined valid data types, will be enriched with taxonomies
 		 */
 		public $valid_data_types = array();
-
 
 
 		/**
@@ -80,8 +79,8 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 
 			// Set and translate the valid data types
 			$this->valid_data_types = array(
-				'price'	=> __( 'Price', 'yoast-woo-seo' ),
-				'stock'	=> __( 'Stock', 'yoast-woo-seo' ),
+				'price' => __( 'Price', 'yoast-woo-seo' ),
+				'stock' => __( 'Stock', 'yoast-woo-seo' ),
 			);
 		}
 
@@ -114,7 +113,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		protected function validate_option( $dirty, $clean, $old ) {
 
 			// Have we receive input from a short (license only) form ?
-			$short = ( isset( $dirty['short_form'] ) && $dirty['short_form'] === 'on' ) ? true : false;
+			$short = ( isset( $dirty[ 'short_form' ] ) && $dirty[ 'short_form' ] === 'on' ) ? true : false;
 
 			// Prepare an array of valid data types and taxonomies to validate against
 			$valid_data_types = array_keys( $this->valid_data_types );
@@ -122,9 +121,9 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			$taxonomies       = get_object_taxonomies( 'product', 'objects' );
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
-					$tax_name           = strtolower( $tax->name );
-					$valid_data_types[] = $tax_name;
-					$valid_taxonomies[] = $tax_name;
+					$tax_name            = strtolower( $tax->name );
+					$valid_data_types[ ] = $tax_name;
+					$valid_taxonomies[ ] = $tax_name;
 				}
 			}
 			unset( $taxonomies, $tax, $tax_name );
@@ -133,49 +132,55 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			foreach ( $clean as $key => $value ) {
 				switch ( $key ) {
 					case 'dbversion':
-						$clean[$key] = $this->db_version;
+						$clean[ $key ] = $this->db_version;
 						break;
-						
+
 					case 'data1_type':
 					case 'data2_type':
-						if ( isset( $dirty[$key] ) ) {
-							if ( in_array( $dirty[$key], $valid_data_types, true ) ) {
-								$clean[$key] = $dirty[$key];
+						if ( isset( $dirty[ $key ] ) ) {
+							if ( in_array( $dirty[ $key ], $valid_data_types, true ) ) {
+								$clean[ $key ] = $dirty[ $key ];
+							} else {
+								if ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
+									// Allow taxonomies which may not be registered yet
+									$clean[ $key ] = $dirty[ $key ];
+								}
 							}
-							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
-								// Allow taxonomies which may not be registered yet
-								$clean[$key] = $dirty[$key];
-							}
-						}
-						else if ( $short && isset( $old[$key] ) ) {
-							if ( in_array( $old[$key], $valid_data_types, true ) ) {
-								$clean[$key] = $old[$key];
-							}
-							else if ( sanitize_title_with_dashes( $old[$key] ) === $old[$key] ) {
-								// Allow taxonomies which may not be registered yet
-								$clean[$key] = $old[$key];
+						} else {
+							if ( $short && isset( $old[ $key ] ) ) {
+								if ( in_array( $old[ $key ], $valid_data_types, true ) ) {
+									$clean[ $key ] = $old[ $key ];
+								} else {
+									if ( sanitize_title_with_dashes( $old[ $key ] ) === $old[ $key ] ) {
+										// Allow taxonomies which may not be registered yet
+										$clean[ $key ] = $old[ $key ];
+									}
+								}
 							}
 						}
 						break;
 
 					case 'schema_brand':
 					case 'schema_manufacturer':
-						if ( isset( $dirty[$key] ) ) {
-							if ( in_array( $dirty[$key], $valid_taxonomies, true ) ) {
-								$clean[$key] = $dirty[$key];
+						if ( isset( $dirty[ $key ] ) ) {
+							if ( in_array( $dirty[ $key ], $valid_taxonomies, true ) ) {
+								$clean[ $key ] = $dirty[ $key ];
+							} else {
+								if ( sanitize_title_with_dashes( $dirty[ $key ] ) === $dirty[ $key ] ) {
+									// Allow taxonomies which may not be registered yet
+									$clean[ $key ] = $dirty[ $key ];
+								}
 							}
-							else if ( sanitize_title_with_dashes( $dirty[$key] ) === $dirty[$key] ) {
-								// Allow taxonomies which may not be registered yet
-								$clean[$key] = $dirty[$key];
-							}
-						}
-						else if ( $short && isset( $old[$key] ) ) {
-							if ( in_array( $old[$key], $valid_taxonomies, true ) ) {
-								$clean[$key] = $old[$key];
-							}
-							else if ( sanitize_title_with_dashes( $old[$key] ) === $old[$key] ) {
-								// Allow taxonomies which may not be registered yet
-								$clean[$key] = $old[$key];
+						} else {
+							if ( $short && isset( $old[ $key ] ) ) {
+								if ( in_array( $old[ $key ], $valid_taxonomies, true ) ) {
+									$clean[ $key ] = $old[ $key ];
+								} else {
+									if ( sanitize_title_with_dashes( $old[ $key ] ) === $old[ $key ] ) {
+										// Allow taxonomies which may not be registered yet
+										$clean[ $key ] = $old[ $key ];
+									}
+								}
 							}
 						}
 						break;
@@ -184,23 +189,23 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					case 'breadcrumbs':
 					case 'hide_columns':
 					case 'metabox_woo_top':
-						if ( isset( $dirty[$key] ) ) {
-							$clean[$key] = self::validate_bool( $dirty[$key] );
-						}
-						else if ( $short && isset( $old[$key] ) ) {
-							$clean[$key] = self::validate_bool( $old[$key] );
-						}
-						else {
-							$clean[$key] = false;
+						if ( isset( $dirty[ $key ] ) ) {
+							$clean[ $key ] = self::validate_bool( $dirty[ $key ] );
+						} else {
+							if ( $short && isset( $old[ $key ] ) ) {
+								$clean[ $key ] = self::validate_bool( $old[ $key ] );
+							} else {
+								$clean[ $key ] = false;
+							}
 						}
 						break;
 				}
 			}
-			
+
 			return $clean;
 		}
 
-	
+
 		/**
 		 * Clean a given option value
 		 *

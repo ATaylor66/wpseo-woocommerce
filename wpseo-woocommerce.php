@@ -100,7 +100,7 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_body_length_score', array( $this, 'change_body_length_requirements' ), 10, 2 );
 			add_filter( 'wpseo_linkdex_results', array(
 					$this,
-					'add_woocommerce_specific_content_analysis_tests'
+					'add_woocommerce_specific_content_analysis_tests',
 				), 10, 3 );
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'add_product_images_to_content' ), 10, 2 );
 
@@ -181,7 +181,6 @@ class Yoast_WooCommerce_SEO {
 				if ( is_object( $term ) ) {
 					$crumbs[] = array( 'term' => $term );
 				}
-
 			}
 		}
 
@@ -198,7 +197,7 @@ class Yoast_WooCommerce_SEO {
 
 		// we only need this on admin pages
 		// we don't need this in AJAX requests
-		if ( ! is_admin() || ( defined( "DOING_AJAX" ) && DOING_AJAX ) ) {
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
 		}
 
@@ -380,7 +379,7 @@ class Yoast_WooCommerce_SEO {
 	public function register_settings_page() {
 		add_submenu_page( 'wpseo_dashboard', __( 'WooCommerce SEO Settings', 'yoast-woo-seo' ), __( 'WooCommerce SEO', 'yoast-woo-seo' ), 'manage_options', $this->short_name, array(
 				$this,
-				'admin_panel'
+				'admin_panel',
 			) );
 	}
 
@@ -674,7 +673,6 @@ class Yoast_WooCommerce_SEO {
 				$desc = trim( strip_tags( $term_desc ) );
 				$desc = strip_shortcodes( $desc );
 			}
-
 		}
 
 		return $desc;
