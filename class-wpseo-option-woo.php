@@ -113,7 +113,7 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 		protected function validate_option( $dirty, $clean, $old ) {
 
 			// Have we receive input from a short (license only) form ?
-			$short = ( isset( $dirty[ 'short_form' ] ) && $dirty[ 'short_form' ] === 'on' ) ? true : false;
+			$short = ( isset( $dirty['short_form'] ) && $dirty['short_form'] === 'on' ) ? true : false;
 
 			// Prepare an array of valid data types and taxonomies to validate against
 			$valid_data_types = array_keys( $this->valid_data_types );
@@ -122,8 +122,8 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 			if ( is_array( $taxonomies ) && $taxonomies !== array() ) {
 				foreach ( $taxonomies as $tax ) {
 					$tax_name            = strtolower( $tax->name );
-					$valid_data_types[ ] = $tax_name;
-					$valid_taxonomies[ ] = $tax_name;
+					$valid_data_types[] = $tax_name;
+					$valid_taxonomies[] = $tax_name;
 				}
 			}
 			unset( $taxonomies, $tax, $tax_name );
