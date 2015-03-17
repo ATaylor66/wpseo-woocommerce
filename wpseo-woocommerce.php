@@ -113,7 +113,7 @@ class Yoast_WooCommerce_SEO {
 			// OpenGraph
 			add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
 			add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
-			add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ) );
+			add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ), 50 );
 
 			// Twitter
 			add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
