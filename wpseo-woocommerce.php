@@ -915,6 +915,8 @@ class WPSEO_WooCommerce_Wrappers {
 	 * @param string $option_long_name
 	 * @param string $option
 	 * @param bool   $contains_files
+	 *
+	 * @return mixed
 	 */
 	public static function admin_header( $form = true, $option_long_name = 'yoast_wpseo_options', $option = 'wpseo', $contains_files = false ) {
 
@@ -932,6 +934,8 @@ class WPSEO_WooCommerce_Wrappers {
 	 *
 	 * @param bool $submit
 	 * @param bool $show_sidebar
+	 *
+	 * @return mixed
 	 */
 	public static function admin_footer( $submit = true, $show_sidebar = true ) {
 
