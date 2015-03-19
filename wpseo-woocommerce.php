@@ -402,10 +402,7 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function admin_panel() {
 
-		if ( ! isset( $GLOBALS['wpseo_admin_pages'] ) ) {
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-		}
-		$GLOBALS['wpseo_admin_pages']->admin_header( true, $this->option_instance->group_name, $this->short_name, false );
+		WPSEO_WooCommerce_Wrappers::admin_header( true, $this->option_instance->group_name, $this->short_name, false );
 
 		// @todo [JRF => whomever] change the form fields so they use the methods as defined in WPSEO_Admin_Pages
 
@@ -494,7 +491,7 @@ class Yoast_WooCommerce_SEO {
 		echo '<br class="clear"/>';
 
 		// Submit button and debug info
-		$GLOBALS['wpseo_admin_pages']->admin_footer( true, false );
+		WPSEO_WooCommerce_Wrappers::admin_footer( true, false );
 	}
 
 	/**
@@ -907,4 +904,63 @@ function initialize_yoast_woocommerce_seo() {
 
 if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'initialize_yoast_woocommerce_seo', 20 );
+}
+
+class WPSEO_WooCommerce_Wrappers {
+
+	/**
+	 * Fallback for admin_header
+	 *
+	 * @param bool   $form
+	 * @param string $option_long_name
+	 * @param string $option
+	 * @param bool   $contains_files
+	 *
+	 * @return mixed
+	 */
+	public static function admin_header( $form = true, $option_long_name = 'yoast_wpseo_options', $option = 'wpseo', $contains_files = false ) {
+
+		if ( method_exists( 'Yoast_Form', 'admin_header' ) ) {
+			Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files, $option_long_name );
+
+			return;
+		}
+
+		return self::admin_pages()->admin_header( true, 'yoast_wpseo_news_options', 'wpseo_news' );
+	}
+
+	/**
+	 * Fallback for admin_footer
+	 *
+	 * @param bool $submit
+	 * @param bool $show_sidebar
+	 *
+	 * @return mixed
+	 */
+	public static function admin_footer( $submit = true, $show_sidebar = true ) {
+
+		if ( method_exists( 'Yoast_Form', 'admin_footer' ) ) {
+			Yoast_Form::get_instance()->admin_footer( $submit, $show_sidebar );
+
+			return;
+		}
+
+		return self::admin_pages()->admin_footer( $submit, $show_sidebar );
+	}
+
+	/**
+	 * Returns the wpseo_admin pages global variable
+	 *
+	 * @return mixed
+	 */
+	private static function admin_pages() {
+		global $wpseo_admin_pages;
+
+		if ( ! $wpseo_admin_pages instanceof WPSEO_Admin_Pages ) {
+			$wpseo_admin_pages = new WPSEO_Admin_Pages;
+		}
+
+		return $wpseo_admin_pages;
+	}
+
 }
