@@ -105,12 +105,12 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'add_product_images_to_content' ), 10, 2 );
 
 		} else {
-			if(class_exists('WooCommerce', false)) {
+			if ( class_exists( 'WooCommerce', false ) ) {
 				$wpseo_options = WPSEO_Options::get_all();
 
 				// Add metadescription filter
 				add_filter( 'wpseo_metadesc', array( $this, 'metadesc' ) );
-				
+
 				// OpenGraph
 				add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
 				add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
