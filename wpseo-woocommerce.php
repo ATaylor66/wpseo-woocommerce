@@ -105,36 +105,39 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'add_product_images_to_content' ), 10, 2 );
 
 		} else {
-			$wpseo_options = WPSEO_Options::get_all();
+			if ( class_exists( 'WooCommerce', false ) ) {
+				$wpseo_options = WPSEO_Options::get_all();
 
-			// Add metadescription filter
-			add_filter( 'wpseo_metadesc', array( $this, 'metadesc' ) );
+				// Add metadescription filter
+				add_filter( 'wpseo_metadesc', array( $this, 'metadesc' ) );
 
-			// OpenGraph
-			add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
-			add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
-			add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ), 50 );
+				// OpenGraph
+				add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
+				add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
+				add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ), 50 );
 
-			// Twitter
-			add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
-			add_filter( 'wpseo_twitter_domain', array( $this, 'filter_twitter_domain' ) );
-			add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
+				// Twitter
+				add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
+				add_filter( 'wpseo_twitter_domain', array( $this, 'filter_twitter_domain' ) );
+				add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
 
-			add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
-			add_filter( 'wpseo_sitemap_post_type_archive_link', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_post_type_archive_link', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
 
-			add_filter( 'post_type_archive_link', array( $this, 'xml_post_type_archive_link' ), 10, 2 );
-			add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
+				add_filter( 'post_type_archive_link', array( $this, 'xml_post_type_archive_link' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
 
-			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
+				add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
 
-			// Fix breadcrumbs
-			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
-				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
-				add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
+				// Fix breadcrumbs
+				if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
+					add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
+					add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * Overrides the Woo breadcrumb functionality when the WP SEO breadcrumb functionality is enabled
