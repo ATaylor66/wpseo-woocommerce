@@ -100,38 +100,44 @@ class Yoast_WooCommerce_SEO {
 			add_filter( 'wpseo_body_length_score', array( $this, 'change_body_length_requirements' ), 10, 2 );
 			add_filter( 'wpseo_linkdex_results', array(
 					$this,
-					'add_woocommerce_specific_content_analysis_tests'
+					'add_woocommerce_specific_content_analysis_tests',
 				), 10, 3 );
 			add_filter( 'wpseo_pre_analysis_post_content', array( $this, 'add_product_images_to_content' ), 10, 2 );
 
 		} else {
-			$wpseo_options = WPSEO_Options::get_all();
+			if ( class_exists( 'WooCommerce', false ) ) {
+				$wpseo_options = WPSEO_Options::get_all();
 
-			// OpenGraph
-			add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
-			add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
-			add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ) );
+				// Add metadescription filter
+				add_filter( 'wpseo_metadesc', array( $this, 'metadesc' ) );
 
-			// Twitter
-			add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
-			add_filter( 'wpseo_twitter_domain', array( $this, 'filter_twitter_domain' ) );
-			add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
+				// OpenGraph
+				add_filter( 'wpseo_opengraph_type', array( $this, 'return_type_product' ) );
+				add_filter( 'wpseo_opengraph_desc', array( $this, 'og_desc_enhancement' ) );
+				add_action( 'wpseo_opengraph', array( $this, 'og_enhancement' ), 50 );
 
-			add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
-			add_filter( 'wpseo_sitemap_exclude_taxonomy', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
+				// Twitter
+				add_filter( 'wpseo_twitter_card_type', array( $this, 'return_type_product' ) );
+				add_filter( 'wpseo_twitter_domain', array( $this, 'filter_twitter_domain' ) );
+				add_action( 'wpseo_twitter', array( $this, 'twitter_enhancement' ) );
 
-			add_filter( 'post_type_archive_link', array( $this, 'xml_post_type_archive_link' ), 10, 2 );
-			add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_exclude_post_type', array( $this, 'xml_sitemap_post_types' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_post_type_archive_link', array( $this, 'xml_sitemap_taxonomies' ), 10, 2 );
 
-			add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
+				add_filter( 'post_type_archive_link', array( $this, 'xml_post_type_archive_link' ), 10, 2 );
+				add_filter( 'wpseo_sitemap_urlimages', array( $this, 'add_product_images_to_xml_sitemap' ), 10, 2 );
 
-			// Fix breadcrumbs
-			if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
-				add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
-				add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
+				add_filter( 'woocommerce_attribute', array( $this, 'schema_filter' ), 10, 2 );
+
+				// Fix breadcrumbs
+				if ( $this->options['breadcrumbs'] === true && $wpseo_options['breadcrumbs-enable'] === true ) {
+					add_filter( 'woo_breadcrumbs', array( $this, 'override_woo_breadcrumbs' ) );
+					add_filter( 'wpseo_breadcrumb_links', array( $this, 'add_attribute_to_breadcrumbs' ) );
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * Overrides the Woo breadcrumb functionality when the WP SEO breadcrumb functionality is enabled
@@ -178,7 +184,6 @@ class Yoast_WooCommerce_SEO {
 				if ( is_object( $term ) ) {
 					$crumbs[] = array( 'term' => $term );
 				}
-
 			}
 		}
 
@@ -195,7 +200,7 @@ class Yoast_WooCommerce_SEO {
 
 		// we only need this on admin pages
 		// we don't need this in AJAX requests
-		if ( ! is_admin() || ( defined( "DOING_AJAX" ) && DOING_AJAX ) ) {
+		if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			return;
 		}
 
@@ -377,7 +382,7 @@ class Yoast_WooCommerce_SEO {
 	public function register_settings_page() {
 		add_submenu_page( 'wpseo_dashboard', __( 'WooCommerce SEO Settings', 'yoast-woo-seo' ), __( 'WooCommerce SEO', 'yoast-woo-seo' ), 'manage_options', $this->short_name, array(
 				$this,
-				'admin_panel'
+				'admin_panel',
 			) );
 	}
 
@@ -400,10 +405,7 @@ class Yoast_WooCommerce_SEO {
 	 */
 	function admin_panel() {
 
-		if ( ! isset( $GLOBALS['wpseo_admin_pages'] ) ) {
-			$GLOBALS['wpseo_admin_pages'] = new WPSEO_Admin_Pages;
-		}
-		$GLOBALS['wpseo_admin_pages']->admin_header( true, $this->option_instance->group_name, $this->short_name, false );
+		WPSEO_WooCommerce_Wrappers::admin_header( true, $this->option_instance->group_name, $this->short_name, false );
 
 		// @todo [JRF => whomever] change the form fields so they use the methods as defined in WPSEO_Admin_Pages
 
@@ -492,7 +494,7 @@ class Yoast_WooCommerce_SEO {
 		echo '<br class="clear"/>';
 
 		// Submit button and debug info
-		$GLOBALS['wpseo_admin_pages']->admin_footer( true, false );
+		WPSEO_WooCommerce_Wrappers::admin_footer( true, false );
 	}
 
 	/**
@@ -671,10 +673,42 @@ class Yoast_WooCommerce_SEO {
 				$desc = trim( strip_tags( $term_desc ) );
 				$desc = strip_shortcodes( $desc );
 			}
-
 		}
 
 		return $desc;
+	}
+
+	/**
+	 * If metadesc is empty check which value we should use
+	 *
+	 * On empty metadesc it will check for post_excerpt, otherwise it will use the full product description. If all empty
+	 * just return value $metadesc
+	 *
+	 * @param string $metadesc
+	 *
+	 * @return string
+	 */
+	public function metadesc( $metadesc ) {
+
+		if ( $metadesc == '' ) {
+			if ( is_singular( 'product' ) && function_exists( 'get_product' ) ) {
+				$product = get_product( get_the_ID() );
+				if ( is_object( $product ) ) {
+
+					if ( $product->post->post_excerpt != '' ) {
+						$metadesc = $product->post->post_excerpt;
+					} elseif ( $product->post->post_content != '' ) {
+						$metadesc = $product->post->post_content;
+					}
+
+					if ( ! empty( $metadesc ) ) {
+						$metadesc = wp_html_excerpt( $metadesc, 156 );
+					}
+				}
+			}
+		}
+
+		return $metadesc;
 	}
 
 
@@ -873,4 +907,63 @@ function initialize_yoast_woocommerce_seo() {
 
 if ( ! defined( 'WP_INSTALLING' ) || WP_INSTALLING === false ) {
 	add_action( 'plugins_loaded', 'initialize_yoast_woocommerce_seo', 20 );
+}
+
+class WPSEO_WooCommerce_Wrappers {
+
+	/**
+	 * Fallback for admin_header
+	 *
+	 * @param bool   $form
+	 * @param string $option_long_name
+	 * @param string $option
+	 * @param bool   $contains_files
+	 *
+	 * @return mixed
+	 */
+	public static function admin_header( $form = true, $option_long_name = 'yoast_wpseo_options', $option = 'wpseo', $contains_files = false ) {
+
+		if ( method_exists( 'Yoast_Form', 'admin_header' ) ) {
+			Yoast_Form::get_instance()->admin_header( $form, $option, $contains_files, $option_long_name );
+
+			return;
+		}
+
+		return self::admin_pages()->admin_header( true, 'yoast_wpseo_news_options', 'wpseo_news' );
+	}
+
+	/**
+	 * Fallback for admin_footer
+	 *
+	 * @param bool $submit
+	 * @param bool $show_sidebar
+	 *
+	 * @return mixed
+	 */
+	public static function admin_footer( $submit = true, $show_sidebar = true ) {
+
+		if ( method_exists( 'Yoast_Form', 'admin_footer' ) ) {
+			Yoast_Form::get_instance()->admin_footer( $submit, $show_sidebar );
+
+			return;
+		}
+
+		return self::admin_pages()->admin_footer( $submit, $show_sidebar );
+	}
+
+	/**
+	 * Returns the wpseo_admin pages global variable
+	 *
+	 * @return mixed
+	 */
+	private static function admin_pages() {
+		global $wpseo_admin_pages;
+
+		if ( ! $wpseo_admin_pages instanceof WPSEO_Admin_Pages ) {
+			$wpseo_admin_pages = new WPSEO_Admin_Pages;
+		}
+
+		return $wpseo_admin_pages;
+	}
+
 }
