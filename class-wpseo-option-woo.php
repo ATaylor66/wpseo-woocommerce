@@ -190,10 +190,10 @@ if ( ! class_exists( 'WPSEO_Option_Woo' ) && class_exists( 'WPSEO_Option' ) ) {
 					case 'hide_columns':
 					case 'metabox_woo_top':
 						if ( isset( $dirty[ $key ] ) ) {
-							$clean[ $key ] = self::validate_bool( $dirty[ $key ] );
+							$clean[ $key ] = WPSEO_WooCommerce_Wrappers::validate_bool( $dirty[ $key ] );
 						} else {
 							if ( $short && isset( $old[ $key ] ) ) {
-								$clean[ $key ] = self::validate_bool( $old[ $key ] );
+								$clean[ $key ] = WPSEO_WooCommerce_Wrappers::validate_bool( $old[ $key ] );
 							} else {
 								$clean[ $key ] = false;
 							}

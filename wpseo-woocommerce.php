@@ -966,4 +966,20 @@ class WPSEO_WooCommerce_Wrappers {
 		return $wpseo_admin_pages;
 	}
 
+	/**
+	 * Returns the result of validate bool from WPSEO_Utils if this class exists, otherwise it will return the result from
+	 * validate_bool from WPSEO_Option_Woo
+	 *
+	 * @param $bool_to_validate
+	 *
+	 * @return bool
+	 */
+	public static function validate_bool( $bool_to_validate ) {
+		if ( class_exists('WPSEO_Utils') &&  method_exists( 'WPSEO_Utils', 'validate_bool' ) ) {
+			return WPSEO_Utils::validate_bool( $bool_to_validate );
+		}
+
+		return WPSEO_Option_Woo::validate_bool( $bool_to_validate );
+	}
+
 }
