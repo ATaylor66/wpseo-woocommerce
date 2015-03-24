@@ -35,6 +35,7 @@ Changelog
 	* Fixes a bug where Open Graph image tags for featured images and facebook images were not included first when there existed a product image gallery.
 * Enhancements
 	* Defaults to the short description for the meta description when no meta description is set.
+	* Added 8 new languages: da_DK, en_GB, es_ES, es_MX, it_IT, nb_NO, nl_NL and tr_TR.
 
 ### 1.1.5: September 9th, 2014
 * Prevent adding product archive link to XML sitemap
