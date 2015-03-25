@@ -929,7 +929,7 @@ class WPSEO_WooCommerce_Wrappers {
 			return;
 		}
 
-		return self::admin_pages()->admin_header( true, 'yoast_wpseo_news_options', 'wpseo_news' );
+		return self::admin_pages()->admin_header( true, $option_long_name, $option );
 	}
 
 	/**
