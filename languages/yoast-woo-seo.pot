@@ -1,100 +1,99 @@
-# Copyright (C) 2014 Team Yoast
+# Copyright (C) 2015 Team Yoast
 # This file is distributed under the same license as the Yoast WooCommerce SEO package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Yoast WooCommerce SEO 1.1.5\n"
-"Report-Msgid-Bugs-To: "
-"https://yoast.com/wordpress/plugins/yoast-woocommerce-seo/\n"
-"POT-Creation-Date: 2014-11-04 14:53:17+00:00\n"
+"Project-Id-Version: Yoast WooCommerce SEO 1.1.6\n"
+"Report-Msgid-Bugs-To: https://github.com/yoast/wpseo-woocommerce/issues\n"
+"POT-Creation-Date: 2015-03-24 00:08:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Yoast Translate Team <translations@yoast.com>\n"
 "Language-Team: Yoast Translate <translations@yoast.com>\n"
-"X-Generator: grunt-wp-i18n 0.4.4\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2; "
-"_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; "
-"esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;\n"
-"X-Poedit-Bookmarks: \n"
+"X-Generator: grunt-wp-i18n 0.4.9\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: class-wpseo-option-woo.php:83 wpseo-woocommerce.php:722
+#: class-wpseo-option-woo.php:82 wpseo-woocommerce.php:756
 msgid "Price"
 msgstr ""
 
-#: class-wpseo-option-woo.php:84
+#: class-wpseo-option-woo.php:83
 msgid "Stock"
 msgstr ""
 
-#: wpseo-woocommerce.php:271
+#: wpseo-woocommerce.php:276
 msgid "You should write a short description for this product."
 msgstr ""
 
-#: wpseo-woocommerce.php:273
+#: wpseo-woocommerce.php:278
 msgid "The short description for this product too short."
 msgstr ""
 
-#: wpseo-woocommerce.php:275
+#: wpseo-woocommerce.php:280
 msgid "The short description for this product is too long."
 msgstr ""
 
-#: wpseo-woocommerce.php:277
+#: wpseo-woocommerce.php:282
 msgid "Your short description has a good length."
 msgstr ""
 
-#: wpseo-woocommerce.php:378
+#: wpseo-woocommerce.php:383
 msgid "WooCommerce SEO Settings"
 msgstr ""
 
-#: wpseo-woocommerce.php:378
+#: wpseo-woocommerce.php:383
 msgid "WooCommerce SEO"
 msgstr ""
 
-#: wpseo-woocommerce.php:412
+#: wpseo-woocommerce.php:414
 msgid "Twitter Product Cards"
 msgstr ""
 
-#: wpseo-woocommerce.php:413
+#: wpseo-woocommerce.php:415
 msgid ""
 "Twitter allows you to display two pieces of data in the Twitter card, pick "
 "which two are shown:"
 msgstr ""
 
-#: wpseo-woocommerce.php:418
+#: wpseo-woocommerce.php:420
 msgid "Data %d"
 msgstr ""
 
-#: wpseo-woocommerce.php:443
+#: wpseo-woocommerce.php:445
 msgid "Schema & OpenGraph additions"
 msgstr ""
 
-#: wpseo-woocommerce.php:444
+#: wpseo-woocommerce.php:446
 msgid ""
 "If you have product attributes for the following types, select them here, "
 "the plugin will make sure they're used for the appropriate Schema.org and "
 "OpenGraph markup."
 msgstr ""
 
-#: wpseo-woocommerce.php:445
+#: wpseo-woocommerce.php:447
 msgid "Brand"
 msgstr ""
 
-#: wpseo-woocommerce.php:459
+#: wpseo-woocommerce.php:461
 msgid "Manufacturer"
 msgstr ""
 
-#: wpseo-woocommerce.php:476
+#: wpseo-woocommerce.php:478
 msgid "Breadcrumbs"
 msgstr ""
 
-#: wpseo-woocommerce.php:477
+#: wpseo-woocommerce.php:479
 msgid ""
 "Both WooCommerce and WordPress SEO by Yoast have breadcrumbs functionality. "
 "The WP SEO breadcrumbs have a slightly higher chance of being picked up by "
@@ -103,65 +102,65 @@ msgid ""
 "WooCommerce breadcrumbs will be replaced."
 msgstr ""
 
-#: wpseo-woocommerce.php:478
+#: wpseo-woocommerce.php:480
 msgid "Replace WooCommerce Breadcrumbs"
 msgstr ""
 
-#: wpseo-woocommerce.php:483
+#: wpseo-woocommerce.php:485
 msgid "Admin"
 msgstr ""
 
-#: wpseo-woocommerce.php:484
+#: wpseo-woocommerce.php:486
 msgid ""
 "Both WooCommerce and WordPress SEO by Yoast add columns to the product "
 "page, to remove all but the SEO score column from Yoast on that page, check "
 "this box."
 msgstr ""
 
-#: wpseo-woocommerce.php:485
+#: wpseo-woocommerce.php:487
 msgid "Remove WordPress SEO columns"
 msgstr ""
 
-#: wpseo-woocommerce.php:489
+#: wpseo-woocommerce.php:491
 msgid ""
 "Both WooCommerce and WordPress SEO by Yoast add metaboxes to the edit "
 "product page, if you want WooCommerce to be above WordPress SEO, check the "
 "box."
 msgstr ""
 
-#: wpseo-woocommerce.php:490
+#: wpseo-woocommerce.php:492
 msgid "Move WooCommerce Up"
 msgstr ""
 
-#: wpseo-woocommerce.php:712
+#: wpseo-woocommerce.php:746
 msgid "In stock"
 msgstr ""
 
-#: wpseo-woocommerce.php:713
+#: wpseo-woocommerce.php:747
 msgid "Yes"
 msgstr ""
 
-#: wpseo-woocommerce.php:713
+#: wpseo-woocommerce.php:747
 msgid "No"
 msgstr ""
 
-#: wpseo-woocommerce.php:717
+#: wpseo-woocommerce.php:751
 msgid "Category"
 msgstr ""
 
-#: wpseo-woocommerce.php:828
+#: wpseo-woocommerce.php:862
 msgid ""
 "Please %sinstall &amp; activate WordPress SEO by Yoast%s and then enable "
 "its XML sitemap functionality to allow the WooCommerce SEO module to work."
 msgstr ""
 
-#: wpseo-woocommerce.php:837
+#: wpseo-woocommerce.php:871
 msgid ""
 "Please upgrade WordPress to the latest version to allow WordPress and the "
 "WooCommerce SEO module to work properly."
 msgstr ""
 
-#: wpseo-woocommerce.php:846
+#: wpseo-woocommerce.php:880
 msgid ""
 "Please upgrade the WordPress SEO plugin to the latest version to allow the "
 "WooCommerce SEO module to work."

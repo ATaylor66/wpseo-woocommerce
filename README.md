@@ -1,8 +1,8 @@
 WooCommerce Yoast SEO
 =====================
-Requires at least: 3.5<br>
-Tested up to: 4.0<br>
-Stable tag: 1.1.5<br>
+Requires at least: 3.8<br>
+Tested up to: 4.2<br>
+Stable tag: 1.1.6<br>
 
 This extension to WooCommerce and WordPress SEO by Yoast makes sure there's perfect communication between the two plugins.
 
@@ -28,6 +28,14 @@ You can find the FAQ [online here](https://yoast.com/wordpress/plugins/yoast-woo
 
 Changelog
 =========
+
+### 1.1.6: November 11th, 2014
+* Bugfixes
+	* Fixes a bug where a Fatal error was being raised on the frontend when WooCommerce is not activated.
+	* Fixes a bug where Open Graph image tags for featured images and facebook images were not included first when a product image gallery existed.
+* Enhancements
+	* Defaults to the short description for the meta description when no meta description is set.
+	* Added 8 new languages: da_DK, en_GB, es_ES, es_MX, it_IT, nb_NO, nl_NL and tr_TR.
 
 ### 1.1.5: September 9th, 2014
 * Prevent adding product archive link to XML sitemap
